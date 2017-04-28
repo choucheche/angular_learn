@@ -1,0 +1,6 @@
+路由用第三方插件 ui-router
+
+官方地址：
+https://github.com/angular-ui/ui-router
+
+详情参考：D:\learn\angular\菜鸟教程\23-ui-router

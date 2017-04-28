@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <div ng-controller="myCtrl">
+            <button ng-click="count = count + 1">点我！</button>
+            <!-- 每点击一次count+=1 -->
+            <p>{{ count }}</p>
+        </div>
+
+        <br><br>
+
+        <div ng-controller="personCtrl">
+            <button ng-click="toggle()">隐藏/显示</button>
+            <!-- 运行下面的tooggle()自定义方法 -->
+            <p ng-hide="myVar">
+                <!--
+                  通过控制myVar是true/false来显示隐藏
+                  用ng-show控制也行
+                -->
+                名: <input type="text" ng-model="firstName"><br> 姓名: <input type="text" ng-model="lastName"><br>
+                <br> Full Name: {{firstName + " " + lastName}}
+            </p>
+        </div>
+
+        <div ng-controller="myCtrl2">
+      		<input ng-model="name">
+      		<h1>{{greeting}}</h1>
+      		<button ng-click='sayHello()'>点我</button>
+      	</div>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.count = 0;
+        });
+
+        app.controller('personCtrl', function($scope) {
+            $scope.firstName = "John",
+                $scope.lastName = "Doe"
+            $scope.myVar = false;
+            $scope.toggle = function() {
+                $scope.myVar = !$scope.myVar;
+            };
+        });
+
+        app.controller('myCtrl2', function($scope) {
+      	    $scope.name = "Runoob";
+      		$scope.sayHello = function() {
+      	    	$scope.greeting = 'Hello ' + $scope.name + '!';
+      		};
+      	});
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <div ng-controller="myCtrl">
+            <h1>{{carname}}</h1>
+        </div>
+
+        <br><br>
+
+        <div ng-controller="myCtrl2">
+            <input ng-model="name">
+            <!-- 1.当在这里改变值后 -->
+            <h1>{{greeting}}</h1>
+            <button ng-click='sayHello()'>点我</button>
+        </div>
+
+        <br><br>
+
+        <div ng-controller="myCtrl3">
+            <h1>{{lastname}} 家族成员:</h1>
+            <ul>
+                <li ng-repeat="x in names">{{x}} {{lastname}}</li>
+                <!--
+                  得
+                  Emil Refsnes
+                  Tobias Refsnes
+                  Linus Refsnes
+                -->
+            </ul>
+        </div>
+    </div>
+
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.carname = "Volvo";
+        });
+
+        app.controller('myCtrl2', function($scope) {
+            $scope.name = "Runoob";
+            $scope.sayHello = function() {
+                $scope.greeting = 'Hello ' + $scope.name + '!';
+                // 2.当改变上面绑定name的input时，这里的 name 跟着改变
+            };
+        });
+
+        app.controller('myCtrl3', function($scope, $rootScope) {
+            $scope.names = ["Emil", "Tobias", "Linus"];
+            $rootScope.lastname = "Refsnes";
+            /*
+            $rootScope 可作用于整个应用中。是各个 controller 中 scope 的桥梁。
+            用 rootscope 定义的值，可以在各个 controller 中使用。
+            */
+        });
+    </script>
+</body>
+
+</html>

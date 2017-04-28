@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body ng-app="todoList">
+    <div ng-controller="TaskCtrl">
+        <div class='input-group'>
+            <input ng-model='task' type='text' class='form-control'>
+            <span class='input-group-btn'>
+    <button class='btn btn-default' ng-click='add()'>提交</button>
+  </span>
+        </div>
+        <h4 ng-hide='tasks.length==0'>ng-hide 如果列表没有值就隐藏这行</h4>
+        <!-- ng-hide判断是否隐藏这个标签 -->
+        <h4 ng-if='tasks.length>0'>ng-if 如果列表值大于0，就显示</h4>
+        <!-- ng-hide判断是否隐藏这个标签 -->
+        <h4>任务列表</h4>
+        <ul class='list-group'>
+            <li ng-repeat="item in tasks track by $index" class='list-group-item'>
+                <!-- track by $index 避免了重复文字报错-->
+                {{item}}
+                <a ng-click='tasks.splice($index,1)'>删除</a>
+                <!--
+      ng-click='tasks.splice($index,1)'
+      删除当前tasks索引值
+    -->
+            </li>
+
+        </ul>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('todoList', []);
+        app.controller('TaskCtrl', function($scope) {
+            $scope.task = "";
+            // input添加的文字
+            $scope.tasks = [];
+            // repeat输出的列表
+            $scope.add = function() {
+                $scope.tasks.push($scope.task);
+                /*
+                input 添加的文字传送给 li 列表中
+                不能向里面添加相同的内容，
+                需要在上面的ng-repeat里添加 track by $index
+                让它成为下标的方式
+                */
+            }
+        });
+    </script>
+</body>
+
+</html>

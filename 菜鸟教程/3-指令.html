@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+
+        <div ng-init="quantity=1;price=5">
+            <h2>价格计算器</h2> 数量： <input type="number" ng-model="quantity"> 价格： <input type="number" ng-model="price">
+            <p><b>总价：</b> {{ quantity * price }}</p>
+        </div>
+
+        <br><br>
+
+        <ul ng-init="namesa=['Jani','Hege','Kai']">
+            <li ng-repeat="x in namesa">
+                {{ x }}
+            </li>
+        </ul>
+
+        <br><br>
+
+        <ul ng-init="namesb=[
+                     {name:'Jani',country:'Norway'},
+                     {name:'Hege',country:'Sweden'},
+                     {name:'Kai',country:'Denmark'}
+                     ]">
+            <li ng-repeat="x in namesb">
+                {{ x.name + ', ' + x.country }}
+            </li>
+        </ul>
+
+        <br><br>
+
+        <div runoob-directive1></div>
+        <!-- 通过属性创建自定义指令 -->
+        <runoob-directive1></runoob-directive1>
+        <!-- 通过标签名来创建自定义指令 -->
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.directive("runoobDirective1", function() {
+            return {
+                restrict : "AE",
+                // A，通过属性来创建自定义指令
+                // E，通过标签名来创建自定义指令
+                // 这里连写成AE
+                template: "<h1>自定义指令!</h1>"
+            };
+        });
+        // app.directive("runoobDirective1", function() {
+        //     return {
+        //         restrict : "E",
+        //         // E，通过标签名来创建自定义指令
+        //         template: "<h1>自定义指令!</h1>"
+        //     };
+        // });
+    </script>
+</body>
+
+</html>

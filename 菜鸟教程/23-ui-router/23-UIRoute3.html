@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type='text/css' href="../bootstrap.min.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body ng-app="routerApp" class="ng-scope">
+    <div ui-view></div>
+    <!-- 这里放嵌套的子页面 -->
+
+    <script src='../../angular.min.js'></script>
+    <script src='angular-ui-router.min.js'></script>
+    <!-- 这里用的是 angular-ui-router.min.js 他不是angular官方代码 -->
+    <script>
+    var routerApp = angular.module('routerApp', ['ui.router']);
+    routerApp.config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/index');
+    // 默认地址 /index
+    $stateProvider
+        .state('index', {
+            url: '/index',
+            views: {
+                '': {
+                // 设置/index的页面内容为 child_web3/index.html
+                    templateUrl: 'child_web3/index.html'
+                },
+                'topbar@index': {
+                // 设置index的页面子页面名为 topbar
+                    templateUrl: 'child_web3/topbar.html'
+                },
+                'main@index': {
+                    templateUrl: 'child_web3/home.html'
+                }
+            }
+        })
+        .state('index.usermng', {
+        //设置用户管理页面名为 index.usermng
+            url: '/usermng',
+            views: {
+                'main@index': {
+                //将 index的<div ui-view="main"></div> 位置嵌入子页面
+                    templateUrl: 'child_web3/usermng.html',
+                    controller: function($scope, $state) {
+                        $scope.addUserType = function() {
+                        //设置函数为 addUserType
+                            $state.go("index.usermng.addusertype");
+                            /* 页面跳转到 index.usermng.addusertype，
+                            在下面有设置 index.usermng.addusertype 子页面
+                            */
+                        }
+                    }
+                }
+            }
+        })
+        .state('index.usermng.highendusers', {
+            url: '/highendusers',
+            templateUrl: 'child_web3/highendusers.html'
+        })
+        .state('index.usermng.normalusers', {
+            url: '/normalusers',
+            templateUrl: 'child_web3/normalusers.html'
+        })
+        .state('index.usermng.lowusers', {
+            url: '/lowusers',
+            templateUrl: 'child_web3/lowusers.html'
+        })
+        .state('index.usermng.addusertype', {
+        //这个页面放入
+            url: '/addusertype',
+            templateUrl: 'child_web3/addusertypeform.html',
+            controller: function($scope, $state) {
+                $scope.backToPrevious = function() {
+                //设置方法名为 backToPrevious
+                    window.history.back();
+                    //回到上一个历史链接
+                }
+            }
+        })
+        .state('index.permission', {
+            url: '/permission',
+            views: {
+                'main@index': {
+                //将 index的<div ui-view="main"></div> 位置嵌入内容
+                    template: '这里是权限管理'
+                }
+            }
+        })
+        .state('index.report', {
+            url: '/report',
+            views: {
+                'main@index': {
+                    template: '这里是报表管理'
+                }
+            }
+        })
+        .state('index.settings', {
+            url: '/settings',
+            views: {
+                'main@index': {
+                    template: '这里是系统设置'
+                }
+            }
+        })
+    });
+
+    </script>
+</body>
+
+</html>

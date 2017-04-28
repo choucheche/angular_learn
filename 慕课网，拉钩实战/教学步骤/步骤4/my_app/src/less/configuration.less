@@ -1,0 +1,55 @@
+.fs(@px){
+//自动将传来的px值转换成rem值，37.5按页面为 750设计图计算
+  font-size:unit(@px/37.5,rem);
+}
+.w(@px){
+  width:unit(@px/37.5,rem);
+}
+.h(@px){
+  height:unit(@px/37.5,rem);
+}
+.lh(@px){
+  line-height:unit(@px/37.5,rem);
+}
+.mt(@px){
+  margin-top:unit(@px/37.5,rem);
+}
+.ml(@px){
+  margin-left:unit(@px/37.5,rem);
+}
+.mr(@px){
+  margin-right:unit(@px/37.5,rem);
+}
+.mb(@px){
+  margin-bottom:unit(@px/37.5,rem);
+}
+.pt(@px){
+  padding-top:unit(@px/37.5,rem);
+}
+.pl(@px){
+  padding-left:unit(@px/37.5,rem);
+}
+.pr(@px){
+  padding-right:unit(@px/37.5,rem);
+}
+.pb(@px){
+  padding-bottom:unit(@px/37.5,rem);
+}
+.p(@px1,@px2,@px3,@px4){
+  padding:unit(@px1/37.5,rem) unit(@px2/37.5,rem) unit(@px3/37.5,rem) unit(@px4/37.5,rem);
+}
+.t(@px){
+  top:unit(@px/37.5,rem);
+}
+.l(@px){
+  left:unit(@px/37.5,rem);
+}
+.b(@px){
+  bottom:unit(@px/37.5,rem);
+}
+.r(@px){
+  right:unit(@px/37.5,rem);
+}
+.bp(@px1,@px2){
+  background-position: unit(@px1/37.5,rem) unit(@px2/37.5,rem);
+}

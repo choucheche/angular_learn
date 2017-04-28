@@ -1,0 +1,155 @@
+gulpfile.js写入
+
+var gulp = require('gulp'),
+/*
+npm install gulp -g
+npm install gulp --save-dev
+*/
+
+//删除文件，文件夹
+del = require('del'),
+/*
+npm install del --save-dev
+*/
+//删除文件，文件夹结束
+
+//修改代码后浏览器实时刷新，应用PC，手机，平板
+browserSync = require("browser-sync"),
+/*
+npm install browser-sync --save-dev
+*/
+//修改代码后浏览器实时刷新，应用PC，手机，平板结束
+
+//捕获处理任务中的错误，阻止watch中断，提示错误
+plumber = require('gulp-plumber'),
+/*
+捕获处理任务中的错误,阻止watch中断
+npm install gulp-plumber --save-dev
+*/
+notify = require('gulp-notify'),
+/*
+提示我们编译代码出现了错误
+npm install gulp-notify --save-dev
+*/
+//捕获处理任务中的错误，阻止watch中断，提示错误结束
+
+//html
+htmlmin = require('gulp-htmlmin'),
+/*
+html压缩插件
+npm install gulp-htmlmin --save-dev
+*/
+
+fileinclude = require('gulp-file-include'),
+/*
+include插件，合并html文件
+npm install gulp-file-include --save
+*/
+
+rev = require('gulp-rev-append'),
+/*
+给html引入文件加版本号清除缓存
+npm install gulp-rev-append --save-dev
+*/
+//html结束
+
+var app = {
+    srcPath: 'src',
+    buildPath: 'build',
+    distPath: 'dist',
+    no_srcPath: '!src',
+    no_buildPath: '!build',
+    no_distPath: '!dist',
+};
+
+gulp.task('clean',function() {
+//删除src里没有的，build和dist里的文件
+  return del([
+    /*删除这个bower安装目录系统会报错*/
+    // 'build/bower_components/*',
+    // 'dist/bower_components/*',
+    /*删除这个bower安装目录系统会报错结束*/
+    app.buildPath+'/**/*.html',
+    app.distPath+'/**/*.html'
+  ]);
+  //删除dist里面所有的文件
+});
+
+gulp.task("browser-sync",["html",'bower_copy','script','style','imageMin','less','sass','concatJs'],function(){
+//将任务放入自动刷新页面插件里
+  browserSync({
+    port: 3000,
+    //默认端口3000
+    server: {
+        baseDir: ['./']
+        //默认启动目录位置
+    }
+  });
+});
+
+/*将src内的bower重要文件，放入build，dist的bower_components内*/
+gulp.task('bower_copy', function() {
+    gulp.src([app.srcPath+'/bower_components/**/*.min.js', app.srcPath+'/bower_components/**/*.min.css', app.srcPath+'/bower_components/**/*.{png,jpg,gif,ico}', app.srcPath+'/bower_components/**/font/*'])
+        .pipe(gulp.dest(app.buildPath+'/bower_components'))
+        .pipe(gulp.dest(app.distPath+'/bower_components'))
+        .pipe(browserSync.reload({stream:true}));
+});
+/*将src内的bower重要文件，放入build，dist的bower_components内结束*/
+
+/*html*/
+gulp.task('html', function() {
+    //改变src文件夹下html
+    /*压缩 html文件的参数*/
+    var options = {
+        removeComments: true, //清除HTML注释
+        collapseWhitespace: true, //压缩HTML
+        collapseBooleanAttributes: true, //省略布尔属性的值 <input checked="true"/> ==> <input />
+        removeEmptyAttributes: true, //删除所有空格作属性值 <input id="" /> ==> <input />
+        removeScriptTypeAttributes: true, //删除<script>的type="text/javascript"
+        removeStyleLinkTypeAttributes: true, //删除<style>和<link>的type="text/css"
+        minifyJS: true, //压缩页面JS
+        minifyCSS: true //压缩页面CSS
+    };
+    /*压缩 html文件的参数结束*/
+    gulp.src([app.srcPath+'/**/*.html',app.no_srcPath+'/**/*0.html'])
+        .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+        //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+        /*
+          加入include功能
+          使用方法
+          @@include('./include/head.html')
+        */
+        .pipe(rev()) //加版本号，清除缓存
+        /*
+        要在加版本号的后面加?rev=@@hash
+        比如
+        <script src='js/index.js?rev=@@hash'></script>
+        <link type='text/css' rel='sheetstyle' src='css/index_import.css?rev=@@hash'>
+        */
+        .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+        //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
+        .pipe(gulp.dest(app.buildPath))
+        .pipe(htmlmin(options)) //压缩 html文件
+        .pipe(gulp.dest(app.distPath))
+        .pipe(browserSync.reload({stream:true}));
+        //执行无需F5自动刷新页面
+});
+/*html结束*/
+
+gulp.task('serve', function() {
+  gulp.watch(app.srcPath+'/bower_components/**/*', ['bower_copy']);
+  gulp.watch(app.srcPath+'/**/*.html', ['html']);
+});
+
+gulp.task("default",["clean","browser-sync","serve"]);
+/*
+每次执行default任务后
+先执行clean，清除dist,build目录里所有的文件
+再执行browser-sync，打开文件监听，无需F5自动刷新页面
+再执行serve，开启所有文件监听
+运行后，会提示localhost:3000没找到，这个报错没事，可以正常使用
+*/

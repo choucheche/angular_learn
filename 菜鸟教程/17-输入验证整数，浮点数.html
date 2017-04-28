@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="form-example1">
+        <form name="myForm" class="css-form" novalidate>
+            <div>
+                整数(0-10):
+                <input type="number" ng-model="size" name="size" min="0" max="10" integer/> {{size}}
+                <br/>
+                <span ng-show="myForm.size.$error.integer">不是合法的整数！</span>
+                <span ng-show="myForm.size.$error.min || myForm.size.$error.max">
+          数值必须位于0到10之间！
+        </span>
+            </div>
+            <div>
+                浮点数:
+                <input type="text" ng-model="length" name="length" smart-float /> {{length}}
+                <br/>
+                <span ng-show="myForm.length.$error.float">不是合法的浮点数！</span>
+            </div>
+            <div>
+                远程校验:
+                <input type="text" ng-model="remote" name="remote" remote-validation /> {{remote}}
+                <br/>
+                <span ng-show="myForm.remote.$error.remote">非法数据！</span>
+            </div>
+        </form>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('form-example1', []);
+        var INTEGER_REGEXP = /^\-?\d*$/;
+        app.directive('integer', function() {
+            return {
+                require: 'ngModel',
+                link: function(scope, elm, attrs, ctrl) {
+                    ctrl.$parsers.unshift(function(viewValue) {
+                        if (INTEGER_REGEXP.test(viewValue)) {
+                            ctrl.$setValidity('integer', true);
+                            return viewValue;
+                        } else {
+                            ctrl.$setValidity('integer', false);
+                            return undefined;
+                        }
+                    });
+                }
+            };
+        });
+
+        var FLOAT_REGEXP = /^\-?\d+((\.|\,)\d+)?$/;
+        app.directive('smartFloat', function() {
+            return {
+                require: 'ngModel',
+                link: function(scope, elm, attrs, ctrl) {
+                    ctrl.$parsers.unshift(function(viewValue) {
+                        if (FLOAT_REGEXP.test(viewValue)) {
+                            ctrl.$setValidity('float', true);
+                            return parseFloat(viewValue.replace(',', '.'));
+                        } else {
+                            ctrl.$setValidity('float', false);
+                            return undefined;
+                        }
+                    });
+                }
+            };
+        });
+
+        app.directive('remoteValidation', function($http) {
+            return {
+                require: 'ngModel',
+                link: function(scope, elm, attrs, ctrl) {
+                    elm.bind('keyup', function() {
+                        $http({
+                            method: 'GET',
+                            url: 'FormValidation.jsp'
+                        }).
+                        success(function(data, status, headers, config) {
+                            if (parseInt(data) == 0) {
+                                ctrl.$setValidity('remote', true);
+                            } else {
+                                ctrl.$setValidity('remote', false);
+                            }
+                        }).
+                        error(function(data, status, headers, config) {
+                            ctrl.$setValidity('remote', false);
+                        });
+                    });
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>

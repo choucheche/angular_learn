@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <div ng-controller="customersCtrl">
+            <p> 当前页面的url:</p>
+            <h3>{{myUrl}}</h3>
+        </div>
+
+        <br><br>
+
+        <div ng-controller="myCtrl">
+            <h1>{{myWelcome}}</h1>
+        </div>
+
+        <br><br>
+
+        <div ng-controller="myCtrl2">
+            <h1>{{myHeader}}</h1>
+        </div>
+
+        <br><br>
+
+        <div ng-controller="myCtrl3">
+            <h1>{{theTime}}</h1>
+        </div>
+
+
+        <br><br>
+
+        <div ng-controller="myCtrl4">
+            <p>自定义服务，用于转换16进制数：</p>
+            <h1>{{hex}}</h1>
+        </div>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('customersCtrl', function($scope, $location) {
+            $scope.myUrl = $location.absUrl();
+        });
+
+        app.controller('myCtrl', function($scope, $http) {
+            $http.get("http://www.runoob.com/try/welcome.html").then(function(response) {
+                //执行get方法
+                $scope.myWelcome = response.data;
+            });
+        });
+
+        app.controller('myCtrl2', function($scope, $timeout) {
+            $scope.myHeader = "Hello World!";
+            $timeout(function() {
+                //AngularJS $timeout 服务对应了 JS window.setTimeout 函数。
+                $scope.myHeader = "How are you today?";
+            }, 2000);
+        });
+
+        app.controller('myCtrl3', function($scope, $interval) {
+            $scope.theTime = new Date().toLocaleTimeString();
+            $interval(function() {
+                //AngularJS $interval 服务对应了 JS window.setInterval 函数。
+                $scope.theTime = new Date().toLocaleTimeString();
+            }, 1000);
+        });
+
+        app.service('hexafy', function() {
+            //自定义服务名为 hexafy 在下面调用
+            this.myFunc = function(x) {
+                return x.toString(16);
+            }
+        });
+        app.controller('myCtrl4', function($scope, hexafy) {
+            $scope.hex = hexafy.myFunc(255);
+            //hex的值是给上面的 hexafy 服务里的myFunc方法传入参数255，得到的 ff
+        });
+    </script>
+</body>
+
+</html>

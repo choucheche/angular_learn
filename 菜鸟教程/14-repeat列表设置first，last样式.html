@@ -1,0 +1,37 @@
+<!doctype html>
+<html ng-app="MyCSSModule">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+    .text-red {
+      background-color: #ff0000;
+    }
+    .text-green {
+      background-color: #00ff00;
+    }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="CSSCtrl">
+      <table>
+        <tr><th>row number</th></tr>
+        <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]">
+          <td>{{i+1}}</td>
+        </tr>
+        <!-- 自加1 -->
+      </table>
+    </div>
+</body>
+<script src='../angular.min.js'></script>
+<script>
+var myCSSModule = angular.module('MyCSSModule', []);
+myCSSModule.controller('CSSCtrl', ['$scope',
+    function($scope) {
+
+    }
+]);
+
+</script>
+</html>

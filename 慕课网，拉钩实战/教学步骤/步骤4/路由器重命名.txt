@@ -1,0 +1,4 @@
+参考
+positionList.html
+里面的
+<li class='item' ng-repeat='item in data'>

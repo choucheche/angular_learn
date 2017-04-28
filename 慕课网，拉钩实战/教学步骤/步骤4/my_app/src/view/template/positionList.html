@@ -1,0 +1,26 @@
+<ul class='position-list bg-w'>
+  <!-- <li class='item'>
+    <img class='logo f-l' src="img/me.jpg" alt="">
+    <h3 class='title'>销售</h3>
+    <p class='text'>前端上海互联网<br>2016</p>
+  </li>
+  <li class='item'>
+    <img class='logo f-l' src="img/me.jpg" alt="">
+    <h3 class='title'>销售</h3>
+    <p class='text'>前端上海互联网<br>2016-06-01 11:5</p>
+  </li> -->
+  <li class='item' ng-repeat='item in data'>
+  <!--
+    这里的 data 实际上是 mainCtrl.js里的 list
+    因为经过 positionList.js的重命名
+    scope:{
+      data:'='
+    }
+    mainCtrl.js里的 list 的名字改为了 data 
+  -->
+    <img class='logo f-l' ng-src="{{item.imgSrc}}" alt="">
+    <h3 class='title' ng-bind='item.name'></h3>
+    <p class='text' ng-bind="item.companyName+'['+item.city+']'+' '+item.industry">前端上海互联网<br>2016-06-01 11:5</p>
+    <p class="text" ng-bind='item.time'></p>
+  </li>
+</ul>

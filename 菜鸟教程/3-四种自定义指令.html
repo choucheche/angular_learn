@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+      <hello></hello>
+  		<div hello></div>
+  		<div class="hello"></div>
+  		<!-- directive:hello -->
+  		<div></div>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.directive("hello", function() {
+            return {
+                restrict: 'AEMC',
+                /*
+                A 用于元素的 Attribute，这是默认值
+                E 用于元素的名称
+                C 用于 CSS 中的 class
+                M 代表注释
+                */
+                template: '<div>Hi everyone!</div>',
+                replace: true
+                // replace: true，最终不会生成<hello>标签
+            }
+        });
+    </script>
+</body>
+
+</html>

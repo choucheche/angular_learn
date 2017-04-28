@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		.button {
+			border: 1px #000 solid;
+		}
+	</style>
+</head>
+
+<body ng-app="todoList">
+	<div ng-controller="TaskCtrl">
+		<!-- ng-controller="TaskCtrl"等于js里的 app.controller('TaskCtrl',-->
+		<input type='text' ng-model='msg'>
+		<h1 ng-cloak class='ng-cloak'>{{reverse()}}</h1>
+		<!-- 自动调用下面创建的reverse()方法，颠倒数据 -->
+	</div>
+	<script src='../angular.min.js'></script>
+	<script>
+		var app = angular.module('todoList', []);
+		app.controller('TaskCtrl', function($scope) {
+			$scope.msg = '';
+			$scope.errormsg = '';
+			$scope.reverse = function() {
+				return $scope.msg.split('').reverse().join('');
+				//倒序显示文字 
+			}
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <div ng-init="mySwitch=true">
+            <p>
+                <button ng-disabled="mySwitch">点我!</button>
+                <!-- ng-disabled="mySwitch"如果为true，按钮disabled无法点击 -->
+            </p>
+
+            <p>
+                <input type="checkbox" ng-model="mySwitch">按钮
+                <!--这个按钮控制 ng-model="mySwitch" 是否为true -->
+            </p>
+
+            <p>
+                {{ mySwitch }}
+            </p>
+        </div>
+
+        <br><br>
+
+        <p ng-show="true">我是可见的。</p>
+        <p ng-show="false">我是不可见的。</p>
+        <!-- ng-show 指令隐藏或显示一个 HTML 元素。 -->
+
+        <br><br>
+
+        <div ng-init="hour=13">
+            <p ng-show="hour > 12">我是可见的。</p>
+            <!-- ng-show 指令根据 value 的值来显示（隐藏）HTML 元素。
+            你可以使用表达式来计算布尔值（ true 或 false）: -->
+        </div>
+
+        <br><br>
+
+        <div>
+            <p ng-hide="true">我是不可见的。</p>
+            <p ng-hide="false">我是可见的。</p>
+        </div>
+
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+    </script>
+</body>
+
+</html>

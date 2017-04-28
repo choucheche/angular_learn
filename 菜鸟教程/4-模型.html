@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        input.ng-invalid {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+
+        <div ng-controller="myCtrl">
+            名字: <input ng-model="name">
+            <h1>你输入了: {{name}}</h1>
+        </div>
+
+        <br></br>
+
+        <form name="myForm1">
+            Email:
+            <input type="email" name="myAddress" ng-model="text">
+            <span ng-show="myForm1.myAddress.$error.email">不是一个合法的邮箱地址</span>
+            <!-- 提示信息会在 ng-show 属性返回 true 的情况下显示 -->
+        </form>
+
+        <br></br>
+
+        <form name="myForm2" ng-init="myText = 'test@runoob.com'">
+            Email:
+            <input type="email" name="myAddress" ng-model="myText" required></p>
+            <h1>状态</h1>
+            <p>Valid: {{myForm2.myAddress.$valid}} (如果输入的值是合法的则为 true)。</p>
+            <p>Dirty: {{myForm2.myAddress.$dirty}} (如果值改变则为 true)。</p>
+            <p>Touched: {{myForm.myAddress.$touched}} (如果通过触屏点击则为 true)。</p>
+        </form>
+
+        <br></br>
+
+        <form name="myForm3">
+            输入你的名字:
+            <input name="myName3" ng-model="myText2" required>
+            <!-- 如果input里没有值，则class自带 .ng-invalid
+            添加上面<style>里的样式 -->
+        </form>
+
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.name = "John Doe";
+        });
+    </script>
+</body>
+
+</html>

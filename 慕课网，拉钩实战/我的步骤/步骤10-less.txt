@@ -1,0 +1,54 @@
+gulpfile.js写入
+
+var gulp = require('gulp'),
+
+//捕获处理任务中的错误，阻止watch中断，提示错误
+plumber = require('gulp-plumber'),
+/*
+捕获处理任务中的错误,阻止watch中断
+npm install gulp-plumber --save-dev
+*/
+notify = require('gulp-notify'),
+/*
+提示我们编译代码出现了错误
+npm install gulp-notify --save-dev
+*/
+//捕获处理任务中的错误，阻止watch中断，提示错误结束
+
+//less
+less = require('gulp-less'),
+/*
+编译less文件为css文件
+npm install gulp-less --save-dev
+*/
+sourcemaps = require('gulp-sourcemaps'),
+/*
+为了找到生成css后对应的less文件
+当less有各种引入关系时，编译后不容易找到对应less文件，
+所以需要生成sourcemap文件，方便修改
+npm install gulp-sourcemaps --save-dev
+*/
+//less结束
+
+//less
+gulp.task('less', function () {
+//编译less转为css
+  gulp.src([app.srcPath+'/less/**/*.less',app.no_srcPath+'/less/**/*0.less'])
+    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
+    .pipe(sourcemaps.init()) //为了找到生成css后对应的less文件
+    .pipe(gulp.dest(app.buildPath+'/less'))
+    .pipe(less()) //编译less文件
+    .pipe(sourcemaps.write()) //为了找到生成css后对应的less文件
+    .pipe(gulp.dest(app.srcPath+'/css'))
+    /*编译好的less放进去后，会放入进行监听css文件那里，
+      css任务那里会自动压缩css，给链接加版本号
+    */
+    .pipe(browserSync.reload({stream:true}));
+    //执行无需F5自动刷新页面
+});
+//less结束
+
+gulp.task('serve', function() {
+    gulp.watch(app.srcPath+'/less/**/*.less', ['less']);
+});

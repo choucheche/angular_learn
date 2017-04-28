@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		body {
+			padding: 30px;
+		}
+
+		.button {
+			border: 1px #000 solid;
+		}
+
+		input.ng-invalid {
+		/*当文本框没有值的时候*/
+			background-color: lightblue;
+		}
+	</style>
+</head>
+
+<body ng-app='todoList'>
+	<!-- ng-controller="TaskCtrl"等于js里的 app.controller('TaskCtrl',-->
+	<div ng-controller="TaskCtrl">
+		<input ng-model='text' type='text'>
+		<h1 ng-show="'123'===text">{{text}}</h1>
+		<!-- 当用户在上面的 input输入123这个<h1>标签才显示 -->
+
+		<h2 ng-hide="'123'===text">hide</h2>
+		<!-- 当用户输入123，这个<h2>标签才隐藏 -->
+
+		<h3 ng-if="'123'===text">{{text}}</h3>
+		<!-- 当用户在上面的 input输入123这个<h1>标签才显示 -->
+		<!-- 如果频繁的用 if，系统会卡 -->
+	</div>
+
+	<script src='../angular.min.js'></script>
+	<script>
+		var app = angular.module('todoList', []);
+		app.controller('TaskCtrl', function($scope) {
+
+		});
+	</script>
+</body>
+<ml>

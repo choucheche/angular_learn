@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+</head>
+
+<body ng-app="myApp">
+	<div ng-controller="TaskCtrl">
+		{{aname}}
+		<!-- 得到下面app.value('aname','b');的b -->
+
+		{{http}}
+		<!-- 得到下面app.constant('http','www.baidu.com');的www.baidu.com -->
+
+		{{data.msg}}
+		<!-- app.factory('Data'... 返回return的 data ，data.msg为你好啊 -->
+
+		{{uname}}
+		<!-- 执行上面app.service('User'...里getName的值，得 上官飞燕 -->
+	</div>
+	<script src='../angular.min.js'></script>
+	<script>
+		var app = angular.module('myApp', []);
+		app.value('aname', 'a');
+		// aname 指向 a
+		app.value('aname', 'b');
+		// aname 指向改成 b
+
+		app.constant('http', 'www.baidu.com');
+		// 设置常量 http 指向 www.baidu.com
+		app.constant('http', 'www.sohu.com');
+		// 常量设置好了，不可以改变值，无法设置新数据
+
+		app.factory('Data', function() {
+			return {
+				msg: '你好啊',
+				setMsg: function() {
+					this.msg = '我不好';
+				}
+			}
+		});
+
+		app.service('User', function() {
+			this.firstname = '上官';
+			this.lastname = '飞燕';
+			this.getName = function() {
+				return this.firstname + this.lastname;
+			}
+		});
+		app.controller('TaskCtrl', function($scope, aname, http, Data, User) {
+
+			$scope.aname = aname;
+			// 参数拿到上面 app.value('aname','b'); 的 aname
+
+			$scope.http = http;
+			// 参数拿到上面 app.constant('http','www.baidu.com'); 的 http
+
+			$scope.data = Data;
+			// 参数拿到上面 app.factory('Data'... 的 Data
+
+			Data.setMsg();
+			//执行上面app.factory('Data'... 里的 setMsg方法，重定义msg的值
+
+			$scope.uname = User.getName();
+			//执行上面app.service('User'... 里的 getName方法，拿值
+		});
+	</script>
+</body>
+
+</html>

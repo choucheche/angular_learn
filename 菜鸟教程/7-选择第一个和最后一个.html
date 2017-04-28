@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		.img {
+			width: 50px;
+			height: 50px;
+			display: block;
+			margin: 0 auto;
+		}
+
+		.selected {
+			color: blue;
+		}
+	</style>
+</head>
+
+<body ng-app="todoList">
+	<div ng-controller='UserCtrl'>
+		<ul class='ui-list ui-list-link ui-list-text ui-list-active ui-border-tb'>
+			<li ng-repeat="item in list" class='ui-border-t' ng-class="{'selected':$first}">
+				<!-- ng-class="{'selected':$first}" 如果是第一个索引值，加载样式 .selected -->
+				<span>{{$index}} </span>
+				<!-- 循环的索引值 -->
+				<h4>{{item.address}}</h4>
+
+				<span>{{$first}} </span>
+				<!-- 如果循环的这个值是第一个，得true -->
+				<span>{{$last}} </span>
+				<!-- 如果循环的这个值是最后一个，得true -->
+
+				<div ng-if="$first">如果是第一个索引值显示</div>
+				<div ng-if="$last">如果是最后一个索引值显示</div>
+		</ul>
+	</div>
+	<script src='../angular.min.js'></script>
+	<script>
+		var app = angular.module('todoList', []);
+
+		app.controller('UserCtrl', function($scope) {
+			$scope.list = [{
+					id: 1,
+					address: 'a小区'
+				},
+				{
+					id: 2,
+					address: 'b小区'
+				},
+				{
+					id: 3,
+					address: 'c小区'
+				},
+				{
+					id: 4,
+					address: 'd小区'
+				},
+			];
+		});
+	</script>
+</body>
+
+</html>

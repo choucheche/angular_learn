@@ -1,0 +1,48 @@
+<!doctype html>
+<html ng-app>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="Scope1.css" />
+	</head>
+	<body>
+		<div ng-controller="EventController">
+			Root scope
+			<tt>MyEvent</tt> count: {{count}}
+			<ul>
+				<li ng-repeat="i in [1]" ng-controller="EventController">
+					<button ng-click="$emit('MyEvent')">
+						<!-- $emit只能向父级 parent 控制器controller传递event与data
+						向上面俩个父级 ng-controller="EventController" 里的MyEvent函数传值
+						-->
+						$emit('MyEvent')
+					</button>
+					<button ng-click="$broadcast('MyEvent')">
+						<!-- $broadcast只能向子级 child 控制器controller传递event与data
+							向下面的子级 ng-controller="EventController" 里的MyEvent函数传值
+					  -->
+						$broadcast('MyEvent')
+					</button>
+					<br>
+					Middle scope
+					<tt>MyEvent</tt> count: {{count}}
+					<ul>
+						<li ng-repeat="item in [1, 2]" ng-controller="EventController">
+							Leaf scope
+							<tt>MyEvent</tt> count: {{count}}
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</body>
+	<script src='../angular.min.js'></script>
+	<script>
+	function EventController($scope) {
+		$scope.count = 0;
+		$scope.$on('MyEvent', function() {
+		// $on用于接收event与data
+			$scope.count++;
+		});
+	}
+	</script>
+</html>

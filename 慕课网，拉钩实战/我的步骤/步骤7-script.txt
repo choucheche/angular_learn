@@ -1,0 +1,55 @@
+gulpfile.js写入
+
+var gulp = require('gulp'),
+
+//捕获处理任务中的错误，阻止watch中断，提示错误
+plumber = require('gulp-plumber'),
+/*
+捕获处理任务中的错误,阻止watch中断
+npm install gulp-plumber --save-dev
+*/
+notify = require('gulp-notify'),
+/*
+提示我们编译代码出现了错误
+npm install gulp-notify --save-dev
+*/
+//捕获处理任务中的错误，阻止watch中断，提示错误结束
+
+//js
+uglify = require('gulp-uglify'),
+/*
+js压缩插件
+npm install gulp-uglify --save-dev
+*/
+jshint = require("gulp-jshint"),
+/*
+检查js错误
+npm install jshint --save-dev
+npm install gulp-jshint --save-dev
+*/
+//js结束
+
+/*js*/
+gulp.task('script',function(){
+  gulp.src([app.srcPath+'/js/**/*.js',app.no_srcPath+'/js/**/*.min.js',app.no_srcPath+'/js/**/*0.js',app.buildPath+'/concat_js'])
+    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
+    .pipe(jshint()) //检查JS错误
+    .pipe(jshint.reporter()) //输出检查结果
+    .pipe(gulp.dest(app.buildPath+'/js'))
+    .pipe(uglify({
+    ////压缩js文件
+      mangle: true,//类型：Boolean 默认：true 是否修改变量名
+      //mangle: {except: ['require' ,'exports' ,'module' ,'$']}//排除混淆关键字
+      compress: true,//类型：Boolean 默认：true 是否完全压缩
+      //preserveComments: 'all' //保留所有注释
+    }))
+    .pipe(gulp.dest(app.distPath+'/js'))
+    .pipe(browserSync.reload({stream:true}));
+    //执行无需F5自动刷新页面
+});
+/*js结束*/
+
+gulp.task('serve', function() {
+    gulp.watch(app.srcPath+'/js/**/*.js', ['script']);
+});

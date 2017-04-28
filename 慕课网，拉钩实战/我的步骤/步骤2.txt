@@ -1,0 +1,21 @@
+npm install -g gulp
+电脑全局安装gulp功能
+
+npm install gulp --save-dev
+安装gulp插件到本地目录，并 --save-dev 加入依赖到package.json里
+
+npm uninstall gulp --save-dev
+删除gulp插件到本地目录，并 --save-dev 删除依赖到package.json里
+
+gulpfile.js写入
+
+var gulp = require('gulp');
+
+var app = {
+    srcPath: 'src',
+    buildPath: 'build',
+    distPath: 'dist',
+    no_srcPath: '!src',
+    no_buildPath: '!build',
+    no_distPath: '!dist',
+};

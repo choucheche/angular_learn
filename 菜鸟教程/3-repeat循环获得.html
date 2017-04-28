@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+
+
+        <ul ng-init="namesa=['Jani','Hege','Kai']">
+            <li ng-repeat="x in namesa">
+                {{ x }}
+            </li>
+        </ul>
+
+        <br><br>
+
+        <ul ng-init="namesb=[
+                     {name:'Jani',country:'Norway'},
+                     {name:'Hege',country:'Sweden'},
+                     {name:'Kai',country:'Denmark'}
+                     ]">
+            <li ng-repeat="x in namesb">
+                {{ x.name + ', ' + x.country }}
+            </li>
+        </ul>
+
+        <br><br>
+
+        <div ng-init="points=[1,15,19,2,40]">
+
+      		<p>第三个值为 <span ng-bind="points[2]"></span></p>
+      		<!-- 得19获取 points 默认属性，ng-bind直接将值显示在文本里 -->
+      	</div>
+
+        <br><br>
+
+        <div ng-controller="myCtrl">
+          <table>
+            <tr><th>row number</th></tr>
+            <tr ng-repeat="i in num"><td>{{i}}</td></tr>
+        		<!-- 从js的num拿值 -->
+        	</table>
+        </div>
+
+        <br><br>
+
+        <table>
+          <tr><th>row number</th></tr>
+          <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i+1}}</td></tr>
+      		<!-- 自加1 -->
+      	</table>
+      	<!-- 得 1 2 3 4 5 6 7 8-->
+
+        <br><br>
+
+        <div ng-controller="myCtrl2">
+      		<ul>
+      			<li ng-repeat="phone in phones">
+      				<!-- 循环从js里的$scope.phones拿属性值 -->
+      				{{phone.name}}
+      				<p>{{phone.snippet}}</p>
+      		</ul>
+      	</div>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+
+        app.controller('myCtrl', function($scope) {
+    			$scope.num = [0, 1, 2, 3, 4, 5, 6, 7];
+    		});
+
+        app.controller('myCtrl2', function($scope) {
+    			$scope.phones = [{
+    					"name": "Nexus S",
+    					"snippet": "Fast just got faster with Nexus S."
+    				},
+    				{
+    					"name": "Motorola XOOM with Wi-Fi",
+    					"snippet": "The Next, Next Generation tablet."
+    				},
+    				{
+    					"name": "MOTOROLA XOOM",
+    					"snippet": "The Next, Next Generation tablet."
+    				}
+    			];
+    		});
+    </script>
+</body>
+
+</html>

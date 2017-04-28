@@ -1,0 +1,38 @@
+<!doctype html>
+<html ng-app>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="Scope1.css" />
+	</head>
+	<body>
+		<div class="show-scope-demo">
+			<div ng-controller="GreetCtrl">
+				Hello {{name}}!
+			</div>
+			<div ng-controller="ListCtrl">
+				<ol>
+					<li ng-repeat="name in names">
+						{{name}} from {{department}}
+            <!-- {{department}}拿到 GreetCtrl函数里公共的值
+            $rootScope.department = 'Angular'; -->
+					</li>
+				</ol>
+			</div>
+		</div>
+	</body>
+	<script src='../angular.min.js'></script>
+	<script>
+  function GreetCtrl($scope, $rootScope) {
+  $scope.name = 'World';
+  $rootScope.department = 'Angular';
+  /* $rootScope.department = 'Angular';
+    设置公用变量，这个函数外也可以调用它
+  */
+  }
+
+  function ListCtrl($scope) {
+  $scope.names = ['Igor', 'Misko', 'Vojta'];
+  }
+
+  </script>
+</html>

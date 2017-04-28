@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+</head>
+
+<body ng-app="myApp">
+	<div ng-controller="aaa">
+		<input type="text" ng-model='data.msg'> {{data.msg}}
+		<input type="text" ng-model='name_c'> {{name_c}}
+	</div>
+	<br>
+	<div ng-controller="bbb">
+		<input type="text" ng-model='data.msg'> {{data.msg}}
+		<input type="text" ng-model='name_c'> {{name_c}}
+	</div>
+	<script src='../angular.min.js'></script>
+	<script>
+		var app = angular.module('myApp', []);
+		app.factory('Data', function() {
+			return {
+				msg: '我来自factory'
+			}
+		});
+
+		app.controller('aaa', function($scope, Data) {
+			$scope.name = 'name_c';
+			$scope.data = Data;
+			// 参数拿到上面 app.factory('Data'... 的 Data
+		});
+		/*
+			上下两个app.controller本来应该是值不同的，互不干扰的
+			比如$scope.name='name_c';
+			但是$scope.data=Data是从app.factory('Data',...拿到的
+			让两个app.controller的$scope.data相关联了
+			可以用在两个页面都需要同一个值，比如购物车和列表页面，
+			拿到相同的数据，一起进行处理
+
+		*/
+		app.controller('bbb', function($scope, Data) {
+			$scope.name = 'name_c';
+			$scope.data = Data;
+			// 参数拿到上面 app.factory('Data'... 的 Data
+		});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+</head>
+
+<body ng-app="myApp">
+		<div ng-controller='UserCtrl'>
+			<form name='f' ng-submit="reqister(user)">
+				<!-- ng-submit="reqister(user)"点击下面的button提交按钮后执行下面的 reqister(user)函数-->
+				<fieldset>
+					<legend>基本信息</legend>
+					<img ng-src='{{user.icon}}' ng-if='user.isShowImg' ng-class="{'img':user.showicon}">
+					<div>
+						<input type='text' ng-model='user.uname' placeholder="用户名" required>
+						<input type='password' ng-model='user.pwd' placeholder='密码' required>
+						职位：
+						<select>
+							<option value=''>--请选择--</option>
+							<option value='1' ng-selected="user.zw=='1'">JAVA工程师</option>
+							<option value='2' ng-selected="user.zw=='2'">.net工程师</option>
+						<lect>
+						<select ng-disabled="1==1">
+						<!-- 判断是否可点击 -->
+							<option value=''>--请选择--</option>
+							<option value='1' ng-selected="user.zw=='1'">JAVA工程师</option>
+							<option value='2' ng-selected="user.zw=='2'">.net工程师</option>
+						<lect>
+						性别：
+							<input type='radio' name='sex' ng-checked="user.sex=='1'">男
+							<input type='radio' name='sex' ng-checked="user.sex=='0'">女
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>爱好</legend>
+						<div>
+							<input type='checkbox' name='ai' ng-checked='isChecked(1)'>篮球
+							<input type='checkbox' name='ai' ng-checked='isChecked(2)'>足球
+							<input type='checkbox' name='ai' ng-checked='isChecked(3)'>排球
+						</div>
+					</fieldset>
+					<button type='submit' class='button expand' ng-disabled="f.$invalid">提交<tton>
+					<!--
+						ng-disabled="f.$invalid"为判断这个form表单是否填写合格
+						需要看上面 input 是否有 required 必填
+					-->
+				</form>
+			</div>
+		<script src='../angular.min.js'></script>
+		<script>
+			var app = angular.module('myApp', []);
+
+			app.controller('UserCtrl',function($scope){
+				$scope.user={
+					uname:'ruizhou',
+					icon:'me.jpg',
+					showicon:true,
+					isShowImg:true,
+					pwd:'',
+					zw:'1',
+					sex:'1',
+					aihao:[1,2,3]
+				};
+				$scope.isChecked=function(n){
+					var isok=false;
+					for(var i=0;i<$scope.user.aihao.length;i++){
+						if(n==$scope.user.aihao[i]){
+							isok=true;
+							break;
+						}
+					}
+					return isok;
+				}
+				$scope.reqister=function(u){
+					console.log(u);
+				}
+			});
+
+		</script>
+	</body>
+	<ml>

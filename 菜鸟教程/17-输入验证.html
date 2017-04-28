@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <h2>Validation Example</h2>
+
+        <form ng-controller="validateCtrl" name="myForm" novalidate>
+            <!-- HTML 表单属性 novalidate 用于禁用浏览器默认的验证。 -->
+
+            <p>用户名:<br>
+                <input type="text" name="user" ng-model="user" required>
+                <span style="color:red" ng-show="myForm.user.$dirty && myForm.user.$invalid">
+                  <span ng-show="myForm.user.$error.required">用户名是必须的。</span>
+                </span>
+            </p>
+
+            <p>邮箱:<br>
+                <input type="email" name="email" ng-model="email" required>
+                <span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+                  <span ng-show="myForm.email.$error.required">邮箱是必须的。</span>
+                <span ng-show="myForm.email.$error.email">非法的邮箱。</span>
+                </span>
+            </p>
+
+            <p>长度：</p>
+            <input type="text" name="number" ng-model="number" ng-minlength="3" ng-maxlength="8">
+            <span style="color:red" ng-show="myForm.number.$dirty && myForm.number.$invalid">
+              <p ng-show="myForm.number.$error.minlength" class="help-block">Username is too short.</p>
+              <p ng-show="myForm.number.$error.maxlength" class="help-block">Username is too long.</p>
+            </span>
+            <p>
+            <button ng-click="" ng-disabled="myForm.$invalid">
+            <!-- ng-disabled="myForm.$invalid"
+            代表form的名字myForm如果里面的值没填对
+            button标签里有disabled禁止点击属性
+            -->
+            SAVE
+            </button>
+                <!--
+                 $dirty	如果表单或者输入框有使用到则为True
+                 $valid	告诉我们这一项当前基于你设定的规则是否验证通过
+                 $invalid	告诉我们这一项当前基于你设定的规则是否验证未通过
+                 $pristine 如果表单或者输入框没有使用则为True
+                -->
+
+            </p>
+
+        </form>
+
+        <br><br>
+
+        <form name="myForm">
+            Email:
+            <input type="email" name="myAddress" ng-model="text">
+            <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+            <!--
+      			myForm.myAddress.$error.email系统自带的判断功能
+      			如果输入的不是合法的邮件地址，会显示上面的文字
+      		-->
+        </form>
+
+        <p>在输入框中输入你的邮箱地址，如果不是一个合法的邮箱地址，会弹出提示信息。</p>
+        <br><br><br>
+        <form name="myForm2" ng-init="myText = 'test@runoob.com'">
+
+            Email:
+            <input type="email" name="myAddress" ng-model="myText" required>
+            <p>编辑邮箱地址，查看状态的改变。</p>
+            <h1>状态</h1>
+            <p>Valid: {{myForm2.myAddress.$valid}} (如果输入的值是合法的则为 true)。</p>
+            <p>Dirty: {{myForm2.myAddress.$dirty}} (如果值改变则为 true)。</p>
+            <p>Touched: {{myForm2.myAddress.$touched}} (如果通过触屏点击则为 true)。</p>
+            <!-- 上面3个都是系统自带的判断功能 -->
+        </form>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('validateCtrl', function($scope) {
+            $scope.user = 'John Doe';
+            $scope.email = 'john.doe@gmail.com';
+            $scope.number = '123';
+        });
+    </script>
+</body>
+
+</html>

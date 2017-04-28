@@ -1,0 +1,27 @@
+.head {
+    background-color: @headBgColor;
+    .h(40);
+    //用写好的 height 函数转换成 rem
+    .lh(40);
+    .pl(7);
+    .pr(7);
+    position:relative;
+    .text {
+        color: @defaultColor;
+    }
+
+    .custom {
+        background: @warnColor;
+        color: @defaultColor;
+        border-color: @warnColor;
+        border-style: dashed;
+        position:absolute;
+        .r(7);
+        top:50%;
+        transform:translateY(-50%);
+        .pl(15);
+        .pr(15);
+        .lh(22);
+        .fs(15);
+    }
+}

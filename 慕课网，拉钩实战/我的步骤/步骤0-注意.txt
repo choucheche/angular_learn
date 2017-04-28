@@ -1,0 +1,12 @@
+所有路径名，开始位置不能写 ./
+比如 不能写 ./src/
+得写 src/
+
+插件有些只加 --save-dev
+有些只加 -save 不加-dev
+
+安装：
+npm install 插件名 --save-dev
+
+删除：
+npm uninstall 插件名 --save-dev

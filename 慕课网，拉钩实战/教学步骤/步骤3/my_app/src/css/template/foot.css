@@ -1,0 +1,14 @@
+.foot {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 40px;
+  right: 0;
+  font-size: 0;
+}
+li {
+  font-size: 20px;
+  width: 33%;
+}
+
+/*# sourceMappingURL=data:application/json;charset=utf8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInRlbXBsYXRlL2Zvb3QubGVzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGVBQUE7RUFDQSxPQUFBO0VBQ0EsU0FBQTtFQUNBLFlBQUE7RUFDQSxRQUFBO0VBQ0EsWUFBQTs7QUFFRjtFQUNFLGVBQUE7RUFDQSxVQUFBIiwic291cmNlc0NvbnRlbnQiOlsiLmZvb3R7XG4gIHBvc2l0aW9uOmZpeGVkO1xuICBsZWZ0OjA7XG4gIGJvdHRvbTowO1xuICBoZWlnaHQ6NDBweDtcbiAgcmlnaHQ6MDtcbiAgZm9udC1zaXplOjA7XG59XG5saXtcbiAgZm9udC1zaXplOjIwcHg7XG4gIHdpZHRoOjMzJTtcbn1cbiJdLCJmaWxlIjoidGVtcGxhdGUvZm9vdC5jc3MifQ== */

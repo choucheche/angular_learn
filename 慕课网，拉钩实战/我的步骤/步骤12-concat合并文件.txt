@@ -1,0 +1,25 @@
+gulpfile.js写入
+
+var gulp = require('gulp'),
+
+//合并文件
+concat = require('gulp-concat');
+/*
+合并当前文件夹下所有javascript文件成一个js文件，减少网络请求。
+npm install gulp-concat --save-dev
+*/
+//合并文件结束
+
+//合并文件
+gulp.task('concatJs',function(){
+//合并js文件
+  gulp.src(app.srcPath+'/concat_js/**/*.js')
+    .pipe(concat('all.js'))
+    //将所有src/concat_js/**/*.js里的js,合并成一个文件 all.js
+    .pipe(gulp.dest(app.buildPath+'/concat_js'));
+});
+//合并文件结束
+
+gulp.task('serve', function() {
+    gulp.watch(app.srcPath+'/concat_js/**/*.js', ['concatJs']);
+});

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        body{
+          padding:30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+      {{ 1488875059000 | date }}
+      <!-- 需要精确到毫秒 -->
+      <br>
+      {{ 1488875059000 | date:"MM/dd/yyyy @ h:mma" }}
+      <br>
+      {{ 1488875059000 | date:"yyyy-MM-dd hh:mm:ss" }}
+      <br>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+
+    </script>
+</body>
+
+</html>

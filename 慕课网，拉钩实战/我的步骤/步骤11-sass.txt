@@ -1,0 +1,45 @@
+gulpfile.js写入
+
+var gulp = require('gulp'),
+
+//捕获处理任务中的错误，阻止watch中断，提示错误
+plumber = require('gulp-plumber'),
+/*
+捕获处理任务中的错误,阻止watch中断
+npm install gulp-plumber --save-dev
+*/
+notify = require('gulp-notify'),
+/*
+提示我们编译代码出现了错误
+npm install gulp-notify --save-dev
+*/
+//捕获处理任务中的错误，阻止watch中断，提示错误结束
+
+//sass
+sass = require('gulp-sass'),
+/*
+编译sass/scss 为 css 文件
+npm install gulp-sass --save-dev
+*/
+//sass结束
+
+//sass
+gulp.task('sass', function () {
+//编译sass/scss文件转换为css
+  return gulp.src([app.srcPath+'/sass/**/*.scss',app.no_srcPath+'/sass/**/*0.scss'])
+    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
+    .pipe(gulp.dest(app.buildPath+'/sass'))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(app.srcPath+'/css'))
+    /*编译好的sass放进去后，会放入进行监听css文件那里，
+      css任务那里会自动压缩css，给链接加版本号
+    */
+    .pipe(browserSync.reload({stream:true}));
+    //执行无需F5自动刷新页面
+});
+//sass结束
+
+gulp.task('serve', function() {
+    gulp.watch(app.srcPath+'/sass/**/*.scss', ['sass']);
+});

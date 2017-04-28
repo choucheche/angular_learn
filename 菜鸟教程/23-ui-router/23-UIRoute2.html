@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type='text/css' href="../bootstrap.min.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body ng-app="routerApp" class="ng-scope">
+    <nav class="navbar navbar-inverse" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" ui-sref="#">AngularUI Router</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li>
+                <a ui-sref="home">Home</a>
+                <!-- 跳转当前页面地址 -->
+            </li>
+            <li>
+                <a ui-sref="about">About</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div ui-view=""></div>
+        <!-- 这里放嵌套的子页面 -->
+    </div>
+
+    <script src='../../angular.min.js'></script>
+    <script src='angular-ui-router.min.js'></script>
+    <!-- 这里用的是 angular-ui-router.min.js 他不是angular官方代码 -->
+    <script>
+        var routerApp = angular.module('routerApp', ['ui.router']);
+        // ['ui.router'] 加载 angular-ui-router 功能
+        routerApp.config(function($stateProvider, $urlRouterProvider) {
+        // 这里用的是 angular-ui-router.min.js 他不是angular官方代码
+            $urlRouterProvider.otherwise('/home');
+            //默认嵌套的子页面是/home
+            $stateProvider
+                .state('home', {
+                    url: '/home',
+                    templateUrl: 'child_web2/home.html'
+                })
+                // nested list with custom controller
+                .state('home.list', {
+                    url: '/list',
+                    templateUrl: 'child_web2/home-list.html',
+                    controller: function($scope) {
+                        $scope.topics = ['Butterscotch', 'Black Current', 'Mango'];
+                    }
+                })
+                // nested list with just some random string data
+                .state('home.paragraph', {
+                    url: '/paragraph',
+                    template: 'I could sure use a scoop of ice-cream. '
+                    // 他没有页面，直接显示了要加载的内容
+                })
+                .state('about', {
+                    url: '/about',
+                    views: {
+                        '': {
+                        // 为 /about 页面嵌套子页面 child_web2/about.html
+                            templateUrl: 'child_web2/about.html'
+                        },
+                        'columnOne@about': {
+                        /*
+                          为了让一个页面嵌套进好几个子页面，需要给他们起名字
+                          设定about的子页面名字为 columnOne
+                        */
+                            template: '这里是第一列的内容'
+                        },
+                        'columnTwo@about': {
+                            templateUrl: 'child_web2/table-data.html',
+                            controller: 'Controller'
+                            // 这个子页面，加入下面的 Controller
+                        }
+                    }
+                });
+        });
+        routerApp.controller('Controller', function($scope) {
+            $scope.message = 'test';
+            $scope.topics = [{
+                name: 'Butterscotch',
+                price: 50
+            }, {
+                name: 'Black Current',
+                price: 100
+            }, {
+                name: 'Mango',
+                price: 20
+            }];
+        });
+    </script>
+</body>
+
+</html>

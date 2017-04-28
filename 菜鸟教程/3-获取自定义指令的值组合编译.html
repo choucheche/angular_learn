@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <div ng-repeat="i in [1,2]">
+            <div repeater="2">
+                <p>
+                    你好，再见！
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var myModule = angular.module("myApp", []);
+        myModule.directive('repeater', function() {
+            return {
+                restrict: 'A',
+                compile: function(el, attrs, transclude) {
+                    //这里开始对标签元素自身进行一些变换
+                    console.log("repeat...compile...");
+
+                    var tpl = el.children().clone();
+                    for (var i = 0; i < attrs.repeater - 1; i++) {
+                        el.append(tpl.clone());
+                    }
+
+                    //返回link函数
+                    return function(scope, el, attrs, controller) {
+                        console.log("repeat...link...");
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

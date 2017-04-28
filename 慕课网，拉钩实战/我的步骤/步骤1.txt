@@ -1,0 +1,26 @@
+cmd cd 到 my_app
+
+创建文件目录 build,dist,src
+src下有data(放json数据文件)，img，include，js，less，html文件，bower插件
+
+npm init
+全回车，生成 package.json 文件
+
+bower init
+全回车，生成 bower.json 文件
+/*
+bower update 以后用这个更新全部插件
+bower update jquery 更新指定插件
+*/
+
+新建.bowerrc文件，指定bower安装插件的目录位置
+写入
+{
+  "directory" : "src/bower_components"
+}
+
+用bower安装
+bower install angular#1.2.32 --save
+
+用bower删除
+bower uninstall angular#1.2.32 --save

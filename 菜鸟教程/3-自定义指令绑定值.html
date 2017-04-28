@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="MyModule">
+      <div ng-controller="MyCtrl">
+        <drink flavor="{{ctrlFlavor}}"></drink>
+      </div>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+    var myModule = angular.module("MyModule", []);
+    myModule.controller('MyCtrl', ['$scope', function($scope){
+    $scope.ctrlFlavor="百威";
+    }])
+    myModule.directive("drink", function() {
+    return {
+      restrict:'AE',
+        scope:{
+          flavor:'@'
+        },
+        template:"<div>{{flavor}}</div>"
+        // ,
+        // link:function(scope,element,attrs){
+        // 	scope.flavor=attrs.flavor;
+        // }
+    }
+    });
+    </script>
+</body>
+
+</html>

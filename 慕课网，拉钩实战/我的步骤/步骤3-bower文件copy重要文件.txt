@@ -1,0 +1,18 @@
+由于.bowerrc文件，指定bower安装插件的目录位置为
+{
+  "directory" : "src/bower_components"
+}
+
+gulpfile.js写入
+
+/*将src内的bower重要文件，放入build，dist的bower_components内*/
+gulp.task('bower_copy', function() {
+    gulp.src([app.srcPath+'/bower_components/**/*.min.js', app.srcPath+'/bower_components/**/*.min.css', app.srcPath+'/bower_components/**/*.{png,jpg,gif,ico}', app.srcPath+'/bower_components/**/font/*'])
+        .pipe(gulp.dest(app.buildPath+'/bower_components'))
+        .pipe(gulp.dest(app.distPath+'/bower_components'))
+});
+/*将src内的bower重要文件，放入build，dist的bower_components内结束*/
+
+gulp.task('serve', function() {
+    gulp.watch(app.srcPath+'/bower_components/**/*', ['bower_copy']);
+});

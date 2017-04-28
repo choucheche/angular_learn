@@ -1,0 +1,2 @@
+bower install angular --save
+bower install ui-router --save

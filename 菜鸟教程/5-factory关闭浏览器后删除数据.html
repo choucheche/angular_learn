@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+	</style>
+</head>
+
+<body ng-app="MyModule">
+	<div>
+		<div ng-controller="MyCtrl">
+			<span>{{gameName}}</span>
+		</div>
+	</div>
+	<script src='../angular.min.js'></script>
+	<script>
+	var myModule = angular.module("MyModule", []);
+		myModule.factory("HelloAngular", function() {
+			var name = "慕课网";
+			function getName(){
+					return name;
+			}
+			return {
+				getName:getName
+			};
+		});
+		myModule.controller('MyCtrl', ['$scope', 'HelloAngular',
+			function($scope, helloAngular) {
+				// helloAngular 获取 HelloAngular 的值
+					$scope.gameName = helloAngular.getName();
+			}
+		]);
+
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            padding: 30px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        table tr:nth-child(odd) {
+            background-color: #f1f1f1;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <div ng-controller="customersCtrl">
+            <table>
+                <tr ng-repeat="x in names">
+                    <td>{{ x.Name }}</td>
+                    <td>{{ x.Country }}</td>
+                </tr>
+            </table>
+
+            <br><br>
+
+            <table>
+                <tr ng-repeat="x in names | orderBy : 'Country'">
+                    <!-- 使用 orderBy 过滤器 -->
+                    <td>{{ x.Name }}</td>
+                    <td>{{ x.Country }}</td>
+                </tr>
+            </table>
+
+            <br><br>
+
+            <table>
+                <tr ng-repeat="x in names">
+                    <td>{{ x.Name }}</td>
+                    <td>{{ x.Country | uppercase }}</td>
+                    <!-- 使用 uppercase 过滤器转换为大写 -->
+                </tr>
+            </table>
+
+            <br><br>
+
+            <table>
+                <tr ng-repeat="x in names">
+                    <td>{{ $index + 1 }}</td>
+                    <!-- 表格显示序号可以在 <td> 中添加 $index: 序号 -->
+                    <td>{{ x.Name }}</td>
+                    <td>{{ x.Country }}</td>
+                </tr>
+            </table>
+
+            <br><br>
+
+            <table>
+                <tr ng-repeat="x in names">
+                    <!-- 单双数 -->
+                    <td ng-if="$odd" style="background-color:#f1f1f1">{{ x.Name }}</td>
+                    <td ng-if="$even" style="background-color:#fff">{{ x.Name }}</td>
+                    <td ng-if="$odd" style="background-color:#f1f1f1">{{ x.Country }}</td>
+                    <td ng-if="$even" style="background-color:#fff">{{ x.Country }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('customersCtrl', function($scope, $http) {
+            $http.get("./11-table-Customers_JSON.php")
+                //需要服务器
+                .success(function(response) {
+                    $scope.names = response.records;
+                });
+        });
+    </script>
+</body>
+
+</html>

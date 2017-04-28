@@ -1,0 +1,66 @@
+gulpfile.js写入
+
+var gulp = require('gulp'),
+
+//捕获处理任务中的错误，阻止watch中断，提示错误
+plumber = require('gulp-plumber'),
+/*
+捕获处理任务中的错误,阻止watch中断
+npm install gulp-plumber --save-dev
+*/
+notify = require('gulp-notify'),
+/*
+提示我们编译代码出现了错误
+npm install gulp-notify --save-dev
+*/
+//捕获处理任务中的错误，阻止watch中断，提示错误结束
+
+//css
+cssmin = require('gulp-minify-css'),
+/*
+css压缩插件
+npm install gulp-minify-css --save-dev
+*/
+cssver = require('gulp-make-css-url-version'),
+/*
+css里的链接加版本号
+npm install gulp-make-css-url-version --save-dev
+*/
+autoprefixer = require('gulp-autoprefixer'),
+/*
+自动为css加兼容性前缀
+npm install gulp-autoprefixer --save-dev
+*/
+//css结束
+
+/*css*/
+gulp.task('style',function(){
+  gulp.src([app.srcPath+'/css/**/*.css',app.no_srcPath+'/css/**/*.min.css',app.no_srcPath+'/css/**/*0.css'])
+    .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+    //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
+    .pipe(autoprefixer({
+      browsers: ['last 2 versions','> 5%','ie 6-8','iOS 7','Android >= 4.0'],
+      //按照上面这些兼容性，添加属性前缀
+      cascade: true, //是否美化属性值 默认：true 像这样：
+      //-webkit-transform: rotate(45deg);
+      //        transform: rotate(45deg);
+      remove:true //是否去掉不必要的前缀 默认：true
+    }))
+    .pipe(cssver()) //并给css里的引用文件加版本号
+    .pipe(gulp.dest(app.buildPath+'/css'))
+    .pipe(cssmin({ //压缩css文件
+      advanced: true,//类型：Boolean 默认：true [是否开启高级优化（合并选择器等）]
+      compatibility: 'ie7',//保留ie7及以下兼容写法 类型：String 默认：''or'*' [启用兼容模式； 'ie7'：IE7兼容模式，'ie8'：IE8兼容模式，'*'：IE9+兼容模式]
+      keepBreaks: false,//类型：Boolean 默认：false [是否保留换行]
+      keepSpecialComments: '*'
+      //保留所有特殊前缀 当你用autoprefixer生成的浏览器前缀，如果不加这个参数，有可能将会删除你的部分前缀
+    }))
+    .pipe(gulp.dest(app.distPath+'/css'))
+    .pipe(browserSync.reload({stream:true}));
+    //执行无需F5自动刷新页面
+});
+/*css结束*/
+
+gulp.task('serve', function() {
+    gulp.watch(app.srcPath+'/css/**/*.css', ['style']);
+});

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="MyModule">
+
+        <hello></hello>
+        <!-- 通过标签名来创建自定义指令 -->
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+    var myModule = angular.module("MyModule", []);
+
+    myModule.run(function($templateCache){
+    //注射器加载完所有模块时，此方法执行一次
+    $templateCache.put("hello.html","<div>Hello everyone!!!!!!</div>");
+    /*
+    $templateCache 是模板缓存，
+    $templateCache.put，相当于 写入模板缓存，名为 hello.html
+    值为<div>Hello everyone!!!!!!</div>
+    var hello.html = '<div>Hello everyone!!!!!!</div>'
+    */
+    });
+
+    myModule.directive("hello", function($templateCache) {
+    //自定义标签 <hello>
+    return {
+        restrict: 'AECM',
+        template: $templateCache.get("hello.html"),
+        /*$templateCache.get("hello.html")，
+        相当于获取模板缓存名为hello.html的值
+        拿到变量名为hello.html的值*/
+        replace: true
+    };
+    });
+
+    </script>
+</body>
+
+</html>

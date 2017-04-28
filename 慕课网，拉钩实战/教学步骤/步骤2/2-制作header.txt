@@ -1,0 +1,19 @@
+样式写入
+我们的 index.html 只引入 index.css
+这里的 index.css 是由 index.less 生成的
+index.less 引入 head.less
+@import 'template/head.less';
+
+head.less引入
+@import '../configuration.less';
+@import '../variable.less';
+@import '../property.less';
+
+在 configuration.less 我们设置很多 样式函数
+//慕课网里的样式函数写在index.less里，我不学他，不然gulp less会报错
+
+比如
+.fs(@px){
+//自动将传来的px值转换成rem值，37.5按页面为 750设计图计算
+  font-size:unit(@px/37.5,rem);
+}

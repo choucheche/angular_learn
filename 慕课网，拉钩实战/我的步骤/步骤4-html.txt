@@ -1,0 +1,84 @@
+gulpfile.js写入
+
+var gulp = require('gulp'),
+
+//捕获处理任务中的错误，阻止watch中断，提示错误
+plumber = require('gulp-plumber'),
+/*
+捕获处理任务中的错误,阻止watch中断
+npm install gulp-plumber --save-dev
+*/
+notify = require('gulp-notify'),
+/*
+提示我们编译代码出现了错误
+npm install gulp-notify --save-dev
+*/
+//捕获处理任务中的错误，阻止watch中断，提示错误结束
+
+//html
+htmlmin = require('gulp-htmlmin'),
+/*
+html压缩插件
+npm install gulp-htmlmin --save-dev
+*/
+
+fileinclude = require('gulp-file-include'),
+/*
+include插件，合并html文件
+npm install gulp-file-include --save
+*/
+
+rev = require('gulp-rev-append'),
+/*
+给html引入文件加版本号清除缓存
+npm install gulp-rev-append --save-dev
+*/
+//html结束
+
+/*html*/
+gulp.task('html', function() {
+    //改变src文件夹下html
+    /*压缩 html文件的参数*/
+    var options = {
+        removeComments: true, //清除HTML注释
+        collapseWhitespace: true, //压缩HTML
+        collapseBooleanAttributes: true, //省略布尔属性的值 <input checked="true"/> ==> <input />
+        removeEmptyAttributes: true, //删除所有空格作属性值 <input id="" /> ==> <input />
+        removeScriptTypeAttributes: true, //删除<script>的type="text/javascript"
+        removeStyleLinkTypeAttributes: true, //删除<style>和<link>的type="text/css"
+        minifyJS: true, //压缩页面JS
+        minifyCSS: true //压缩页面CSS
+    };
+    /*压缩 html文件的参数结束*/
+    gulp.src([app.srcPath+'/**/*.html',app.no_srcPath+'/**/*0.html'])
+        .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+        //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
+        .pipe(fileinclude({
+            prefix: '@@',
+            basepath: '@file'
+        }))
+        /*
+          加入include功能
+          使用方法
+          @@include('./include/head.html')
+        */
+        .pipe(rev()) //加版本号，清除缓存
+        /*
+        要在加版本号的后面加?rev=@@hash
+        比如
+        <script src='js/index.js?rev=@@hash'></script>
+        <link type='text/css' rel='sheetstyle' src='css/index_import.css?rev=@@hash'>
+        */
+        .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
+        //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
+        .pipe(gulp.dest(app.buildPath))
+        .pipe(htmlmin(options)) //压缩 html文件
+        .pipe(gulp.dest(app.distPath))
+        .pipe(browserSync.reload({stream:true}));
+        //执行无需F5自动刷新页面
+});
+/*html结束*/
+
+gulp.task('serve', function() {
+    gulp.watch(app.srcPath+'/**/*.html', ['html']);
+});

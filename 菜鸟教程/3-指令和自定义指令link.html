@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+      <div ng-controller="myCtrl">
+        <div ng-init="quantity=1;price=5">
+            <h2>价格计算器</h2>
+            数量： <input type="number" ng-model="quantity">
+            价格： <input type="number" ng-model="price">
+            <p><b>总价：</b> {{ quantity * price }}</p>
+            <p><b>总价：</b><span ng-bind="quantity * price"></span></p>
+        </div>
+
+        <br><br>
+
+        <div runoob-directive1></div>
+        <!-- 通过属性创建自定义指令 -->
+        <runoob-directive1 aa='123' bb='carname' cc='click(id)'></runoob-directive1>
+        <!--
+          通过标签名来创建自定义指令，
+          写入属性值 aa='123' bb='carname' cc='click(id)'
+          与下面的
+          scope:{
+          aa:'@',
+          bb:'=',
+          cc:'&'
+          },
+          和
+          template: "<div ng-click='cc({id:2})'><h1>{{aa}},{{bb}}</h1></di>",
+          相关联
+        -->
+
+        <br><br>
+
+        <div ng-init="points=[1,15,19,2,40]">
+
+      		<p>第三个值为 <span ng-bind="points[2]"></span></p>
+      		<!-- 得19获取 points 默认属性，ng-bind直接将值显示在文本里 -->
+      	</div>
+        <div>{{class}}</div>
+      </div>
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+            $scope.carname = "Volvo";
+            $scope.click = function(f){
+              console.log(f);
+              alert('1');
+            }
+        });
+        app.directive("runoobDirective1", function() {
+            return {
+                restrict : "AE",
+                /*
+                上面的restrict : "AE",是指定下面的类型
+                A，通过属性来创建自定义指令
+                E，通过标签名来创建自定义指令
+                这里连写成AE
+                */
+                scope:{
+                  aa:'@',
+                  //需要在<runoobDirective1>里面和下面的 template 写东西
+                  // '@' 代表字符串
+                  bb:'=',
+                  // '=' 代表变量
+                  cc:'&'
+                  // '&' 代表回调函数
+                },
+                template: "<div ng-click='cc({id:2})'><h1>{{aa}},{{bb}}</h1></di>",
+
+                link:function(scope,elment,attr){
+                //相当于一个函数
+                  scope.class='123';
+                  console.log('1');
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>

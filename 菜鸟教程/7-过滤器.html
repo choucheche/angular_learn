@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        body{
+          padding:30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-app="myApp">
+        <!--
+        currency	格式化数字为货币格式。
+        filter	从数组项中选择一个子集。
+        lowercase	格式化字符串为小写。
+        orderBy	根据某个表达式排列数组。
+        uppercase	格式化字符串为大写。
+      -->
+
+      <div ng-controller="personCtrl">
+          <p>姓名为 {{ lastName | uppercase }}</p>
+          <!-- 转换为大写 -->
+          <p>姓名为 {{ lastName | lowercase }}</p>
+          <!-- 转换为小写 -->
+      </div>
+
+      <br><br>
+
+      <div ng-controller="costCtrl">
+        数量: <input type="number" ng-model="quantity">
+        价格: <input type="number" ng-model="price">
+        <p>总价 = {{ (quantity * price) | currency }}</p>
+        <!-- 转换为货币 -->
+      </div>
+
+      <br><br>
+
+      <ul ng-controller="myCtrl">
+        <li ng-repeat="x in names | orderBy:'country'">
+          <!-- orderBy代表排序，根据下面给的country变量集排序 -->
+          {{ x.name + ', ' + x.country }}
+        </li>
+      </ul>
+
+      <br><br>
+
+      <div ng-controller="myCtrl">
+        <p><input type="text" ng-model="test"></p>
+        <ul>
+          <li ng-repeat="x in names | filter:test | orderBy:'country'">
+            <!--
+              filter代表过滤，根据上面input输入的值，返回下面数组符合的值
+              orderBy代表排序，根据下面给的country变量集排序
+             -->
+            {{ (x.name | uppercase) + ', ' + x.country }}
+            <!-- x.name转换为大写显示 -->
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    <script src='../angular.min.js'></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('personCtrl', function($scope) {
+            $scope.lastName = "John";
+        });
+        app.controller('costCtrl', function($scope) {
+            $scope.quantity = 1;
+            $scope.price = 9.99;
+        });
+
+        app.controller('myCtrl', function($scope) {
+            $scope.names = [
+                {name:'Jani',country:'Norway'},
+                {name:'Hege',country:'Sweden'},
+                {name:'Kai',country:'Denmark'}
+            ];
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+gulpfile.js写入
+
+var gulp = require('gulp'),
+
+//删除文件，文件夹
+del = require('del'),
+/*
+npm install del --save-dev
+*/
+//删除文件，文件夹结束
+
+gulp.task('clean', function() {
+//删除src里没有的，build和dist里的文件
+  return del([
+    /*删除这个bower安装目录系统会报错*/
+    // 'build/bower_components/*',
+    // 'dist/bower_components/*',
+    /*删除这个bower安装目录系统会报错结束*/
+    app.buildPath+'/**/*.html',
+    app.distPath+'/**/*.html'
+  ]);
+  //删除dist里面所有的文件
+});

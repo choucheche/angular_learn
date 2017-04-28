@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body ng-app="MyUIRoute" class="ng-scope">
+    <div ui-view></div>
+    <!-- 这里放嵌套的子页面 -->
+    <a ui-sref="state1">State 1</a>
+    <!-- 跳转当前页面地址 -->
+    <a ui-sref="state2">State 2</a>
+
+    <script src='../../angular.min.js'></script>
+    <script src='angular-ui-router.min.js'></script>
+    <!-- 这里用的是 angular-ui-router.min.js 他不是angular官方代码 -->
+    <script>
+        var myUIRoute = angular.module('MyUIRoute', ['ui.router']);
+        // ['ui.router'] 加载 angular-ui-router 功能
+        myUIRoute.config(function($stateProvider, $urlRouterProvider) {
+            // 这里用的是 angular-ui-router.min.js 他不是angular官方代码
+            $urlRouterProvider.otherwise("/state1");
+            //默认嵌套的子页面是/state1
+            $stateProvider
+                .state('state1', {
+                // 给子页面起个名字
+                    url: "/state1",
+                    // 设置url地址名
+                    templateUrl: "child_web1/state1.html"
+                    //对应的页面地址
+                })
+                .state('state1.list', {
+                    //state1.list 代表 state1下的子页面
+                    url: "/list",
+                    templateUrl: "child_web1/state1.list.html",
+                    controller: function($scope) {
+                    //这个子页面的控制器
+                        $scope.items = ["A", "List", "Of", "Items"];
+
+                    }
+                })
+                .state('state2', {
+                    url: "/state2",
+                    templateUrl: "child_web1/state2.html"
+                })
+                .state('state2.list', {
+                    //state2.list 代表 state2下的子页面
+                    url: "/list",
+                    templateUrl: "child_web1/state2.list.html",
+                    controller: function($scope) {
+                        $scope.things = ["A", "Set", "Of", "Things"];
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>

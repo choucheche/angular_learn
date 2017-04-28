@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		* {
+			padding: 0;
+			margin: 0;
+		}
+
+		body {
+			padding: 30px;
+		}
+
+		.button {
+			border: 1px #000 solid;
+		}
+
+		input.ng-invalid {
+		/*当文本框没有值的时候*/
+			background-color: lightblue;
+		}
+	</style>
+</head>
+
+<body ng-app='todoList'>
+	<!-- ng-controller="TaskCtrl"等于js里的 app.controller('TaskCtrl',-->
+	<div ng-controller="TaskCtrl">
+		<input ng-model='uname' type='text'>
+		<h1 ng-cloak class='ng-cloak'>{{uname}}</h1>
+		<!-- ng-cloak class='ng-cloak'
+			避免页面加载的时候出现{{uname}}文字闪烁
+			页面先加载好{{uname}}的文字，再加载出这个标签
+		-->
+		<h1 ng-bind='uname'></h1>
+		<!-- ng-bind='uname'直接显示文本 -->
+		<h1 ng-cloak class='ng-cloak'>{{uname}}</h1>
+		<div ng-bind="'用户名：'+uname"></div>
+		<div ng-cloak class='ng-clack {{uname}}'>{{uname}}</div>
+		<p>输入button试试，class名等于样式名，添加样式
+	</div>
+
+	<br><br>
+
+	<form name="myForm">
+    输入你的名字:
+    <input name="myName" ng-model="myText" required>
+	</form>
+
+	<p>编辑文本域，不同状态背景颜色会发送变化。</p>
+	<p>文本域添加了 required 属性，该值是必须的，如果为空则是不合法的。</p>
+	<script src='../angular.min.js'></script>
+	<script>
+		var app = angular.module('todoList', []);
+		app.controller('TaskCtrl', function($scope) {
+
+		});
+	</script>
+</body>
+<ml>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+
+<body ng-app='app'>
+	<div ng-controller="myCtrl">
+		<input type='text' ng-model="uname">
+		<h1 ng-cloak class='ng-cloak'>{{uname}}</h1>
+		<!-- ng-cloak class='ng-cloak'
+			避免页面加载的时候出现{{uname}}文字闪烁
+			页面先加载好{{uname}}的文字，再加载出这个标签
+		-->
+	</div>
+	<script src='../../angular.min.js'></script>
+	<script>
+		var app = angular.module('app', []);
+		app.controller('myCtrl', function($scope) {
+			$scope.uname = 'abc';
+		});
+	</script>
+</body>
+
+</html>
