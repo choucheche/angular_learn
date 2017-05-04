@@ -56,6 +56,12 @@ angular.module('app').config([
           //需要传 id 得知哪个职位
           templateUrl: 'view/position.html',
           controller: 'positionCtrl'
+        }).state('company',{
+        //公司详情页面
+          url:'/company/:id',
+          //需要传 id 得知哪个公司
+          templateUrl: 'view/company.html',
+          controller: 'companyCtrl'
         });
         $urlRouterProvider.otherwise('main');
         //其他地址，执行 id 为 main 的路由
@@ -90,6 +96,134 @@ $state.params 或 $stateParams 里面有所有对应的参数
 $state.params.id
 $stateParams.id
 */
+
+'use strict';
+angular.module('app').controller('companyCtrl',['$scope',function($scope){
+/*
+  这里的companyCtrl 在 router.js 的
+  company函数中 view/company.html 页面上为控制器
+*/
+}]);
+
+
+'use strict';
+angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
+//这里的mainCtrl 在 router.js 的 main 函数中 view/main.html 页面上为控制器
+//$http可以调用 data文件夹下的json文件
+  $http.get('./data/positionList.json').success(function(resp){
+  //获取的 json 数据，存在 resp 里
+    console.log(resp);
+    $scope.list=resp;
+  }).error();
+  //获取 json 数据
+  // $scope.list=[
+  // //列表数据
+  //   {
+  //     id:'1232',
+  //     name:'销售',
+  //     imgSrc:'img/me.jpg',
+  //     compayName:'千度',
+  //     city:'上海',
+  //     industry:'互联网',
+  //     time:'2016-06-01 11:05'
+  //   },
+  //   {
+  //     id:'2',
+  //     name:'web前端',
+  //     imgSrc:'img/me.jpg',
+  //     compayName:'慕课网',
+  //     city:'北京',
+  //     industry:'互联网',
+  //     time:'2016-06-01 01:05'
+  //   }
+  // ];
+}]);
+
+
+'use strict';
+angular.module('app').controller('positionCtrl',['$q','$http','$state','$scope',function($q,$http,$state,$scope){
+//这里的positionCtrl 在 router.js 的 position 函数中 view/position.html 页面上为控制器
+//$q 为了实现延迟加载对象，避免子页面，需要父页面的 json 数据
+$scope.isLogin = false;
+function getPosition(){
+  var def = $q.defer();
+  //设置延迟加载对象
+  $http.get('./data/position.json?id='+$state.params.id).success(function(resp){
+  //获取的 json 数据，存在 resp 里
+    console.log(resp);
+    $scope.position=resp;
+    //这里的 $scope.position 会在 position.html 里 进行 pos='position' 转化
+    //转化后的值显示在 positionInfo 中
+    def.resolve(resp);
+    //把值传回去
+  }).error(function(err){
+    def.reject(err);
+  });
+  return def.promise;
+}
+function getCompany(id){
+  $http.get('./data/company.json?id='+id).success(function(resp){
+    //获得父级页面 json 的 id 值后，获得 json 值
+    console.log(resp);
+    $scope.company = resp;
+    //传入 company.html 值
+  });
+}
+getPosition().then(function(obj){
+/*
+getPosition().then()表示，
+上面的 getPosition() 函数执行后，执行这个函数
+他有俩个函数，一个是 getPosition()执行 success 时执行的，
+一个是 getPosition()执行 error 时执行的，
+*/
+  getCompany(obj.companyId);
+  console.log(obj);
+},function(){
+  alert('进入error，接口错误');
+});
+/*
+  传入俩个函数，第一个是 def.resolve(resp);
+  第二个是 def.reject(err);
+*/
+  // $scope.list=[
+  // //列表数据
+  //   {
+  //     id:'1232',
+  //     name:'销售',
+  //     imgSrc:'img/me.jpg',
+  //     compayName:'千度',
+  //     city:'上海',
+  //     industry:'互联网',
+  //     time:'2016-06-01 11:05'
+  //   },
+  //   {
+  //     id:'2',
+  //     name:'web前端',
+  //     imgSrc:'img/me.jpg',
+  //     compayName:'慕课网',
+  //     city:'北京',
+  //     industry:'互联网',
+  //     time:'2016-06-01 01:05'
+  //   }
+  // ];
+}]);
+
+'use strict';
+angular.module('app').directive('appCompany',[function(){
+/*设置自定义标签，
+找到带 app-company 的属性标签，让里面写入 view/template/company.html的内容
+注意：company.html里需要有一个根标签
+*/
+  return {
+    restrict:'A',
+    // A 从属性中读取，连接到 app-company
+    replace: true,
+    scope:{
+      com:'='
+    },
+    templateUrl:'view/template/company.html'
+  };
+}]);
 
 'use strict';
 angular.module('app').directive('appFoot',[function(){
@@ -142,6 +276,17 @@ angular.module('app').directive('appHeadBar',[function(){
 }]);
 
 'use strict';
+angular.module('app').directive('appPositionClass',[function(){
+  return{
+    restrict:'A',
+    // A 从属性中读取，连接到 app-PositionInfo
+    replace: true,
+    templateUrl:'view/template/positionClass.html',
+    //路由，让 <div app-position-Info>变成 positionInfo.html页面
+  };
+}]);
+
+'use strict';
 angular.module('app').directive('appPositionInfo',[function(){
   return{
     restrict:'A',
@@ -150,7 +295,9 @@ angular.module('app').directive('appPositionInfo',[function(){
     templateUrl:'view/template/positionInfo.html',
     //路由，让 <div app-position-Info>变成 positionInfo.html页面
     scope:{
-      isActive:'='
+      isActive:'=',
+      isLogin:'=',
+      pos:'=',
     },
     link:function($scope){
       $scope.imagePath=$scope.isActive?'img/star-active.png':'img/star.png';
@@ -182,58 +329,4 @@ positionList.html里需要有一个根标签
     作用就是重命名，为了不让名字重复，太乱
     */
   };
-}]);
-
-
-'use strict';
-angular.module('app').controller('mainCtrl',['$scope',function($scope){
-//这里的mainCtrl 在 router.js 的 main 函数中 view/main.html 页面上为控制器
-  $scope.list=[
-  //列表数据
-    {
-      id:'1232',
-      name:'销售',
-      imgSrc:'img/me.jpg',
-      compayName:'千度',
-      city:'上海',
-      industry:'互联网',
-      time:'2016-06-01 11:05'
-    },
-    {
-      id:'2',
-      name:'web前端',
-      imgSrc:'img/me.jpg',
-      compayName:'慕课网',
-      city:'北京',
-      industry:'互联网',
-      time:'2016-06-01 01:05'
-    }
-  ];
-}]);
-
-
-'use strict';
-angular.module('app').controller('positionCtrl',['$scope',function($scope){
-//这里的positionCtrl 在 router.js 的 position 函数中 view/position.html 页面上为控制器
-  $scope.list=[
-  //列表数据
-    {
-      id:'1232',
-      name:'销售',
-      imgSrc:'img/me.jpg',
-      compayName:'千度',
-      city:'上海',
-      industry:'互联网',
-      time:'2016-06-01 11:05'
-    },
-    {
-      id:'2',
-      name:'web前端',
-      imgSrc:'img/me.jpg',
-      compayName:'慕课网',
-      city:'北京',
-      industry:'互联网',
-      time:'2016-06-01 01:05'
-    }
-  ];
 }]);

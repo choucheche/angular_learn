@@ -31,6 +31,10 @@
             return {
                 restrict: 'A',
                 compile: function(el, attrs, transclude) {
+                /*
+                  el 代表 <div alotofhello="5"> 的父级
+                  attrs 代表 <div alotofhello="5"> 本身
+                */  
                     //这里开始对标签元素自身进行一些变换
                     console.log("repeat...compile...");
 

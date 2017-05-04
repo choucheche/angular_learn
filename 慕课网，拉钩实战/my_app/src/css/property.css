@@ -4,8 +4,11 @@
 .f-r {
   float: right;
 }
-.clear {
+.clear::after {
+  content: "";
   clear: both;
+  width: 100%;
+  display: block;
 }
 .d-ib {
   display: inline-block;

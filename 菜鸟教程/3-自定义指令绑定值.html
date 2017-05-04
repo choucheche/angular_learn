@@ -24,8 +24,8 @@
     <script>
     var myModule = angular.module("MyModule", []);
     myModule.controller('MyCtrl', ['$scope', function($scope){
-    $scope.ctrlFlavor="百威";
-    }])
+      $scope.ctrlFlavor="百威";
+    }]);
     myModule.directive("drink", function() {
     return {
       restrict:'AE',

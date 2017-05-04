@@ -1,0 +1,243 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: none;
+}
+html * {
+  outline: 0;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+body,
+html {
+  font-family: Microsoft YaHei, Helvetica Neue, Helvetica, Roboto, STHeiTi, Arial, sans-serif;
+}
+body {
+  overflow-x: hidden;
+  position: relative;
+  color: #000;
+  background: #fff;
+}
+a {
+  text-decoration: none;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+body {
+  font-size: 0.42666667rem;
+  background: #eee;
+}
+button {
+  outline: none;
+  border: none;
+}
+/*使用方法*/
+/*使用方法结束*/
+.f-l {
+  float: left;
+}
+.f-r {
+  float: right;
+}
+.clear::after {
+  content: "";
+  clear: both;
+  width: 100%;
+  display: block;
+}
+.d-ib {
+  display: inline-block;
+}
+.d-b {
+  display: block;
+}
+.ta-l {
+  text-align: left;
+}
+.ta-c {
+  text-align: center;
+}
+.ta-r {
+  text-align: right;
+}
+.va-t {
+  vertical-align: middle;
+}
+.va-b {
+  vertical-align: bottom;
+}
+.va-t {
+  vertical-align: top;
+}
+.bg-w {
+  background-color: #fff;
+}
+.c-w {
+  color: #fff;
+}
+.c-r {
+  color: red;
+}
+.p-r {
+  position: relative;
+}
+.p-a {
+  position: absolute;
+}
+.head {
+  background-color: #12d5b5;
+  height: 1.06666667rem;
+  line-height: 1.06666667rem;
+  padding-left: 0.18666667rem;
+  padding-right: 0.18666667rem;
+  position: relative;
+}
+.head .text {
+  color: #fff;
+}
+.head .custom {
+  background: #feae11;
+  color: #fff;
+  border-color: #feae11;
+  border-style: dashed;
+  position: absolute;
+  right: 0.18666667rem;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  line-height: 0.58666667rem;
+  font-size: 0.4rem;
+}
+.head .back-btn {
+  font-size: 0.53333333rem;
+  width: 1.06666667rem;
+  left: 0;
+}
+.position-list {
+  margin: 0;
+  padding: 0;
+}
+.position-list .item {
+  margin: 0px 0px;
+  padding: 0.18666667rem 0.08rem 0.18666667rem 0.08rem;
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+}
+.position-list .item .logo {
+  width: 1.73333333rem;
+  height: 1.73333333rem;
+  margin-right: 0.34666667rem;
+}
+.position-list .item .title {
+  margin: 0;
+}
+.position-list .item .text {
+  margin: 0;
+}
+.foot {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 1.06666667rem;
+  right: 0;
+  font-size: 0;
+  border-top: 1px #d4d4d4 solid;
+}
+.foot li {
+  font-size: 0.53333333rem;
+  width: 33%;
+  color: #9f9191;
+  line-height: 1.06666667rem;
+}
+.foot li.select {
+  color: #01c2a3;
+  background: #dbf9f4;
+}
+.foot li i {
+  position: relative;
+  top: 0.13333333rem;
+  margin-right: 0.08rem;
+  width: 0.66666667rem;
+  height: 0.66666667rem;
+}
+.foot li .icon-document {
+  background-image: url(../img/footer-icon.png?v=6%2BJLK3wGBmBMEksgo97isw%3D%3D);
+  background-position: 0 0;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  margin-right: 0.14133333rem;
+}
+.foot li .icon-search {
+  background-image: url(../img/footer-icon.png?v=6%2BJLK3wGBmBMEksgo97isw%3D%3D);
+  background-position: 0rem -0.66666667rem;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  top: 0.152rem;
+}
+.foot li .icon-my {
+  background-image: url(../img/footer-icon.png?v=6%2BJLK3wGBmBMEksgo97isw%3D%3D);
+  background-position: 0rem -1.33333333rem;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+.bottom-btn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  height: 1.2rem;
+  background: #12d5b5;
+  width: 100%;
+  color: #fff;
+  font-size: 0.4rem;
+}
+.position-desc {
+  margin-top: 0.26666667rem;
+}
+.position-desc h5 {
+  line-height: 1.06666667rem;
+  border-bottom: 1px solid #ccc;
+  padding-left: 0.26666667rem;
+  font-size: 0.42666667rem;
+}
+.position-desc pre {
+  padding-top: 0.4rem;
+  padding-left: 0.26666667rem;
+  margin-left: 0rem;
+}
+.position-info {
+  padding: 0.53333333rem 0.26666667rem 0.53333333rem 0.26666667rem;
+  border-bottom: 1px solid #ccc;
+}
+.position-info p {
+  margin: 0.13333333rem 0rem 0.13333333rem 0rem;
+}
+.position-info .ml {
+  margin-left: 0.53333333rem;
+}
+.position-info img {
+  right: 0.64rem;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  width: 0.8rem;
+}
+.company-info {
+  border-bottom: 1px solid #ccc;
+  padding: 0.53333333rem 0.4rem 0.34666667rem 2.26666667rem;
+  height: 2.48rem;
+}
+.company-info img {
+  width: 1.6rem;
+  height: 1.6rem;
+  left: 0.4rem;
+}
+.company-info p {
+  margin-top: 0.18666667rem;
+}
