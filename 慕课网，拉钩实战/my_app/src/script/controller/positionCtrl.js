@@ -22,10 +22,9 @@ function getPosition(){
 }
 function getCompany(id){
   $http.get('./data/company.json?id='+id).success(function(resp){
-    //获得父级页面 json 的 id 值后，获得 json 值
+    //获得父级页面 json 的 id 值，获得接口
     console.log(resp);
     $scope.company = resp;
-    //传入 company.html 值
   });
 }
 getPosition().then(function(obj){

@@ -10,7 +10,7 @@
     .p(10,23,10,23);
     .b-r(20);
     .m(10,10,10,0);
-    &:active{
+    &.active{
       background:@headBgColor;
       color:@defaultColor;
     }
@@ -20,8 +20,11 @@
     .m(5,0,0,0);
     .p(10,0,5,0);
     li{
+      p{
+        .p(5,0,5,0);
+      }
       span{
-        color:@dangerColor;
+        color:@redColor;
         .r(10);
         .t(20);
       }

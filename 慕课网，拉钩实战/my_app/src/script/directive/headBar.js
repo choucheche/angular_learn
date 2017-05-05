@@ -12,10 +12,26 @@ angular.module('app').directive('appHeadBar',[function(){
     scope:{
       text:'='
     },
-    link:function(scope){
-      scope.back=function(){
+    link:function($scope){
+      $scope.back=function(){
         window.history.back();
-      }
+      };
+      $scope.$on('abc',function(event,data){
+      /*
+      $on向上广播
+      传入俩个参数，事件名称 abc，
+      和处理这个函数，它也有俩个参数，事件对象，会时间
+      */
+        console.log(event,data);
+      });
+      $scope.$emit('cba',function(event,data){
+      /*
+      $emit向下广播
+      传入俩个参数，事件名称 abc，
+      和处理这个函数，它也有俩个参数，事件对象，会时间
+      */
+        console.log(event,data);
+      });
     }
   };
 }]);

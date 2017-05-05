@@ -98,11 +98,20 @@ $stateParams.id
 */
 
 'use strict';
-angular.module('app').controller('companyCtrl',['$scope',function($scope){
+angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
 /*
   这里的companyCtrl 在 router.js 的
   company函数中 view/company.html 页面上为控制器
 */
+  $http.get('./data/company.json?id='+$state.params.id).success(function(resp){
+    $scope.company = resp;
+    $scope.$broadcast('abc',{id:1});
+    //当事件加载完成，才能显示
+  });
+  $scope.$on('cba',function(event,data){
+    //当事件加载完成，才能显示
+    console.log(event,data);
+  });
 }]);
 
 
@@ -163,10 +172,9 @@ function getPosition(){
 }
 function getCompany(id){
   $http.get('./data/company.json?id='+id).success(function(resp){
-    //获得父级页面 json 的 id 值后，获得 json 值
+    //获得父级页面 json 的 id 值，获得接口
     console.log(resp);
     $scope.company = resp;
-    //传入 company.html 值
   });
 }
 getPosition().then(function(obj){
@@ -267,10 +275,26 @@ angular.module('app').directive('appHeadBar',[function(){
     scope:{
       text:'='
     },
-    link:function(scope){
-      scope.back=function(){
+    link:function($scope){
+      $scope.back=function(){
         window.history.back();
-      }
+      };
+      $scope.$on('abc',function(event,data){
+      /*
+      $on向上广播
+      传入俩个参数，事件名称 abc，
+      和处理这个函数，它也有俩个参数，事件对象，会时间
+      */
+        console.log(event,data);
+      });
+      $scope.$emit('cba',function(event,data){
+      /*
+      $emit向下广播
+      传入俩个参数，事件名称 abc，
+      和处理这个函数，它也有俩个参数，事件对象，会时间
+      */
+        console.log(event,data);
+      });
     }
   };
 }]);
@@ -281,8 +305,32 @@ angular.module('app').directive('appPositionClass',[function(){
     restrict:'A',
     // A 从属性中读取，连接到 app-PositionInfo
     replace: true,
+    scope:{
+      com:'='
+    },
     templateUrl:'view/template/positionClass.html',
     //路由，让 <div app-position-Info>变成 positionInfo.html页面
+    link:function($scope){
+      //$scope.isActive = 0;
+      $scope.showPositionList = function(idx){
+      //idx为传入的索引值
+
+          $scope.positionList = $scope.com.positionClass[idx].positionList;
+          $scope.isActive = idx;
+      };
+      $scope.$watch('com',function(newVal,oldVal){
+      //$scope.$watch('com'代表监控上面的 $scope.com 这个属性
+      //newVal代表传入之后的值，oldVal代表传入之前的值
+      //少写 $scope.$watch 写很多了会影响性能
+        if(newVal){
+        //一旦发现 $scope.com 传入值了
+          $scope.showPositionList(0);
+          //设置默认索引值为 0
+          //需要先加载完 $scope.com 才能用
+        }
+      });
+
+    }
   };
 }]);
 
