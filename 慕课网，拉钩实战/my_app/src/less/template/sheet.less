@@ -1,0 +1,46 @@
+.sheet {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 99;
+
+    .wrap {
+
+        position: fixed;
+        .l(0);
+        .r(0);
+        .b(0);
+        z-index: 100;
+        width:100%;
+        .p(8,8,8,8);
+        li,button{
+          .f-s(16);
+          .h(50);
+          .l-h(50);
+          width:100%;
+          background-color: @sheetBgColor;
+          color:@sheetColor;
+        }
+        ul {
+          padding:0;
+          overflow: hidden;
+          .b-r(5);
+          .max-h(500);
+            li {
+
+                list-style: none;
+
+                .border-bottom(1,@lineColor);
+            }
+
+        }
+        button{
+          .m(8,0,0,0);
+          .b-r(5);
+
+        }
+    }
+}

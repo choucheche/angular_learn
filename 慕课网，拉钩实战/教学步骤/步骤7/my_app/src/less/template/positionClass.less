@@ -1,0 +1,33 @@
+.position-class{
+  background:@defaultColor;
+  border-top:1px solid @lineColor;
+  .p(13,9,5,9);
+  h5{
+    margin:0;
+  }
+  button{
+    background:@btnColor;
+    .p(10,23,10,23);
+    .b-r(20);
+    .m(10,10,10,0);
+    &.active{
+      background:@headBgColor;
+      color:@defaultColor;
+    }
+  }
+  ul{
+    border-top:1px solid @lineColor;
+    .m(5,0,0,0);
+    .p(10,0,5,0);
+    li{
+      p{
+        .p(5,0,5,0);
+      }
+      span{
+        color:@redColor;
+        .r(10);
+        .t(20);
+      }
+    }
+  }
+}

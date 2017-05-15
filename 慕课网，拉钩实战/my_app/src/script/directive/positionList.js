@@ -11,7 +11,8 @@ positionList.html里需要有一个根标签
     templateUrl:'view/template/positionList.html',
     //路由，让 <div app-position-list>变成 positionList.html页面
     scope:{
-      data:'='
+      data:'=',
+      filterObj:'='
     }
     /*
     这里的 scope 里的 data:'=' 是让

@@ -1,0 +1,6 @@
+.sheet {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  backgoround-color: rgba(0, 0, 0, 0.2);
+}

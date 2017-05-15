@@ -1,0 +1,46 @@
+.foot{
+  position:fixed;
+  left:0;
+  bottom:0;
+  .h(40);
+  right:0;
+  font-size:0;
+  border-top:1px @lineColor solid;
+  li{
+    .fs(18);
+    width:33%;
+    color:@muteColor;
+    .lh(40);
+    &.select{
+      color:@highlightColor;
+      background:@highlightBgColor;
+    }
+    i{
+      position:relative;
+      .t(5);
+      .mr(3);
+      .w(25);
+      .h(25);
+    }
+    .icon-document{
+      background-image:url('../img/footer-icon.png');
+      background-position: 0 0;
+      background-size:100% auto;
+      background-repeat: no-repeat;
+      .mr(5.3);
+    }
+    .icon-search{
+      background-image:url('../img/footer-icon.png');
+      .bp(0,-25);
+      background-size:100% auto;
+      background-repeat: no-repeat;
+      .t(5.7);
+    }
+    .icon-my{
+      background-image:url('../img/footer-icon.png');
+      .bp(0,-50);
+      background-size:100% auto;
+      background-repeat: no-repeat;
+    }
+  }
+}

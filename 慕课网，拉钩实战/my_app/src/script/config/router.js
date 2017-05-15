@@ -27,6 +27,12 @@ angular.module('app').config([
           //需要传 id 得知哪个公司
           templateUrl: 'view/company.html',
           controller: 'companyCtrl'
+        }).state('search',{
+        //公司详情页面
+          url:'/search',
+          //需要传 id 得知哪个公司
+          templateUrl: 'view/search.html',
+          controller: 'searchCtrl'
         });
         $urlRouterProvider.otherwise('main');
         //其他地址，执行 id 为 main 的路由
