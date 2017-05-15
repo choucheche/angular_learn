@@ -1,0 +1,33 @@
+<ul class='position-list bg-w'>
+  <!-- <li class='item'>
+    <img class='logo f-l' src="img/me.jpg" alt="">
+    <h3 class='title'>销售</h3>
+    <p class='text'>前端上海互联网<br>2016</p>
+  </li>
+  <li class='item'>
+    <img class='logo f-l' src="img/me.jpg" alt="">
+    <h3 class='title'>销售</h3>
+    <p class='text'>前端上海互联网<br>2016-06-01 11:5</p>
+  </li> -->
+  <li class='item clear' ng-repeat="item in data|filterByObj:filterObj" ui-sref='position({id:item.id})'>
+  <!--
+    ng-repeat里的 data|filterByObj:filterObj 中，|filterByObj为过滤器
+    filterObj为筛选的条件
+
+    这里的 data 实际上是 mainCtrl.js里的 list
+    因为经过 positionList.js的重命名
+    scope:{
+      data:'='
+    }
+    mainCtrl.js里的 list 的名字改为了 data
+
+    ui-sref='position({id:item.id})' 代表点击跳转到 position 路由 职位详情页面
+    并传一个参数 id，item.id是由 ng-repeat 里得到的
+  -->
+    <img class='logo f-l' ng-src="{{item.imageUrl}}" alt="">
+    <h3 class='title' ng-bind='item.job'></h3>
+    <p class='text' ng-bind="item.companyName+'['+item.cityName+']'+' '+item.industry+' '+item.scaleName"></p>
+    <p class="text" ng-bind='item.salaryName'></p>
+    <p class="text" ng-bind='item.date'></p>
+  </li>
+</ul>

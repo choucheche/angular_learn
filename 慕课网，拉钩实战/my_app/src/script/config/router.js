@@ -33,6 +33,36 @@ angular.module('app').config([
           //需要传 id 得知哪个公司
           templateUrl: 'view/search.html',
           controller: 'searchCtrl'
+        }).state('post',{
+        //公司详情页面
+          url:'/post',
+          //需要传 id 得知哪个公司
+          templateUrl: 'view/post.html',
+          controller: 'postCtrl'
+        }).state('login',{
+        //公司详情页面
+          url:'/login',
+          //需要传 id 得知哪个公司
+          templateUrl: 'view/login.html',
+          controller: 'loginCtrl'
+        }).state('register',{
+        //公司详情页面
+          url:'/register',
+          //需要传 id 得知哪个公司
+          templateUrl: 'view/register.html',
+          controller: 'registerhCtrl'
+        }).state('me',{
+        //公司详情页面
+          url:'/me',
+          //需要传 id 得知哪个公司
+          templateUrl: 'view/me.html',
+          controller: 'meCtrl'
+        }).state('favorite',{
+        //公司详情页面
+          url:'/favorite',
+          //需要传 id 得知哪个公司
+          templateUrl: 'view/favorite.html',
+          controller: 'favoriteCtrl'
         });
         $urlRouterProvider.otherwise('main');
         //其他地址，执行 id 为 main 的路由

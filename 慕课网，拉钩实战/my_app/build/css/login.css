@@ -1,0 +1,12 @@
+.login {
+  background-image: url(../img/background.png?v=%2FV%2BVuYzA5wawDJTvKJU%2FCQ%3D%3D);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
