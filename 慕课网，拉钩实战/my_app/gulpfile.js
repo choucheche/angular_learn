@@ -193,7 +193,7 @@ gulp.task("browser-sync",["html",'bower_copy','script','style','imageMin','conca
 
 /*将src内的bower重要文件，放入build，dist的bower_components内*/
 gulp.task('bower_copy', function() {
-    gulp.src([app.srcPath+'/bower_components/**/*.min.js', app.srcPath+'/bower_components/**/*.min.css', app.srcPath+'/bower_components/**/*.{png,jpg,gif,ico}', app.srcPath+'/bower_components/**/font/*'])
+    gulp.src([app.srcPath+'/bower_components/**/*'])
         .pipe(gulp.dest(app.buildPath+'/bower_components'))
         .pipe(gulp.dest(app.distPath+'/bower_components'))
         .pipe(browserSync.reload({stream:true}));

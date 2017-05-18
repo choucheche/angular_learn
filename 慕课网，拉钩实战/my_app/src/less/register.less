@@ -1,0 +1,109 @@
+.register {
+    background-image: url('../img/background.png');
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    // 当上下左右都写的情况下，高度会变成 100%
+    form {
+        .mt(200);
+        input{
+          /*修改 input 的 placeholder 颜色*/
+          &::-webkit-input-placeholder {
+              color: @defaultColor;
+          }
+
+          &::-moz-placeholder {
+              color: @defaultColor;
+          }
+
+          &::-moz-placeholder {
+              color: @defaultColor;
+          }
+
+          &:-ms-input-placeholder {
+              color: @defaultColor;
+          }
+        }
+        .form-line {
+            margin: 0 auto;
+            .w(300);
+            .h(40);
+            &:first-of-type {
+                .border-bottom(1,@defaultColor);
+            }
+            span{
+              .h(40);
+              .w(55);
+              background-color:@iconBgColor;
+              &.account{
+                background-image:url('../img/account.png');
+                background-repeat: no-repeat;
+                .bg-s(23,24);
+                background-position: center center;
+              }
+              &.lock{
+                background-image:url('../img/lock.png');
+                background-repeat: no-repeat;
+                .bg-s(23,24);
+                background-position: center center;
+              }
+            }
+            input {
+                .w(245);
+                .h(40);
+                .p(0,10,0,10);
+                border-width: 0;
+                background-color: @formBgColor;
+                color: @defaultColor;
+                outline-width: 0;
+            }
+        }
+        .message-wrap{
+          .w(300);
+          margin:0 auto;
+          .h(40);
+          .mt(75);
+          input{
+            .w(190);
+            .h(40);
+            .p(0,10,0,10);
+            border-width: 0;
+            background-color: @formBgColor;
+            color: @defaultColor;
+            outline-width: 0;
+          }
+          span{
+            .h(40);
+            .l-h(40);
+            .p(0,10,0,10);
+            background-color: @btnBgColor;
+            color: @headBgColor;
+            .border(1,@headBgColor);
+          }
+        }
+        button {
+            .w(300);
+            .h(30);
+            .f-s(20);
+            .l-h(30);
+
+            &.login-btn {
+                background-color: @headBgColor;
+                color: @defaultColor;
+                .mt(60);
+            }
+
+            &.register-btn {
+                background-color: @btnBgColor;
+                .mt(20);
+                color: @headBgColor;
+                .border(1,@headBgColor);
+            }
+        }
+    }
+}

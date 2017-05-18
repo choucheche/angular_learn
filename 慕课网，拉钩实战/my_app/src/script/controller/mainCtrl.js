@@ -1,3 +1,4 @@
+
 'use strict';
 angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
 //这里的mainCtrl 在 router.js 的 main 函数中 view/main.html 页面上为控制器

@@ -151,7 +151,7 @@ button {
 }
 .foot li {
   font-size: 0.24rem;
-  width: 33%;
+  width: 33.33%;
   color: #9f9191;
   line-height: 0.53333333rem;
 }
@@ -379,16 +379,211 @@ button {
 }
 .login {
   background-image: url('../img/background.png');
-  background-size: cover;
   background-position: center center;
-  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
   position: fixed;
   left: 0;
   top: 0;
-  right: 0;
   bottom: 0;
-  width: 100%;
+  right: 0;
 }
 .login form {
-  padding-top: 3.46666667rem;
+  margin-top: 2.66666667rem;
+}
+.login form .form-line {
+  margin: 0 auto;
+  width: 4rem;
+  height: 0.53333333rem;
+}
+.login form .form-line:first-of-type {
+  border-bottom: 0.01333333rem #fff solid;
+}
+.login form .form-line span {
+  height: 0.53333333rem;
+  width: 0.73333333rem;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.login form .form-line span.account {
+  background-image: url('../img/account.png');
+  background-repeat: no-repeat;
+  background-size: 0.30666667rem 0.32rem;
+  background-position: center center;
+}
+.login form .form-line span.lock {
+  background-image: url('../img/lock.png');
+  background-repeat: no-repeat;
+  background-size: 0.30666667rem 0.32rem;
+  background-position: center center;
+}
+.login form .form-line input {
+  width: 3.26666667rem;
+  height: 0.53333333rem;
+  padding: 0rem 0.13333333rem 0rem 0.13333333rem;
+  border-width: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  outline-width: 0;
+  /*修改 input 的 placeholder 颜色*/
+}
+.login form .form-line input::-webkit-input-placeholder {
+  color: #fff;
+}
+.login form .form-line input::-moz-placeholder {
+  color: #fff;
+}
+.login form .form-line input::-moz-placeholder {
+  color: #fff;
+}
+.login form .form-line input:-ms-input-placeholder {
+  color: #fff;
+}
+.login form button {
+  width: 4rem;
+  height: 0.4rem;
+  font-size: 0.26666667rem;
+  line-height: 0.4rem;
+}
+.login form button.login-btn {
+  background-color: #12d5b5;
+  color: #fff;
+  margin-top: 0.8rem;
+}
+.login form button.register-btn {
+  background-color: rgba(18, 213, 181, 0.2);
+  margin-top: 0.26666667rem;
+  color: #12d5b5;
+  border: 0.01333333rem #12d5b5 solid;
+}
+.register {
+  background-image: url('../img/background.png');
+  background-position: center center;
+  background-size: cover;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.register form {
+  margin-top: 2.66666667rem;
+}
+.register form input {
+  /*修改 input 的 placeholder 颜色*/
+}
+.register form input::-webkit-input-placeholder {
+  color: #fff;
+}
+.register form input::-moz-placeholder {
+  color: #fff;
+}
+.register form input::-moz-placeholder {
+  color: #fff;
+}
+.register form input:-ms-input-placeholder {
+  color: #fff;
+}
+.register form .form-line {
+  margin: 0 auto;
+  width: 4rem;
+  height: 0.53333333rem;
+}
+.register form .form-line:first-of-type {
+  border-bottom: 0.01333333rem #fff solid;
+}
+.register form .form-line span {
+  height: 0.53333333rem;
+  width: 0.73333333rem;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.register form .form-line span.account {
+  background-image: url('../img/account.png');
+  background-repeat: no-repeat;
+  background-size: 0.30666667rem 0.32rem;
+  background-position: center center;
+}
+.register form .form-line span.lock {
+  background-image: url('../img/lock.png');
+  background-repeat: no-repeat;
+  background-size: 0.30666667rem 0.32rem;
+  background-position: center center;
+}
+.register form .form-line input {
+  width: 3.26666667rem;
+  height: 0.53333333rem;
+  padding: 0rem 0.13333333rem 0rem 0.13333333rem;
+  border-width: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  outline-width: 0;
+}
+.register form .message-wrap {
+  width: 4rem;
+  margin: 0 auto;
+  height: 0.53333333rem;
+  margin-top: 1rem;
+}
+.register form .message-wrap input {
+  width: 2.53333333rem;
+  height: 0.53333333rem;
+  padding: 0rem 0.13333333rem 0rem 0.13333333rem;
+  border-width: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  color: #fff;
+  outline-width: 0;
+}
+.register form .message-wrap span {
+  height: 0.53333333rem;
+  line-height: 0.53333333rem;
+  padding: 0rem 0.13333333rem 0rem 0.13333333rem;
+  background-color: rgba(18, 213, 181, 0.2);
+  color: #12d5b5;
+  border: 0.01333333rem #12d5b5 solid;
+}
+.register form button {
+  width: 4rem;
+  height: 0.4rem;
+  font-size: 0.26666667rem;
+  line-height: 0.4rem;
+}
+.register form button.login-btn {
+  background-color: #12d5b5;
+  color: #fff;
+  margin-top: 0.8rem;
+}
+.register form button.register-btn {
+  background-color: rgba(18, 213, 181, 0.2);
+  margin-top: 0.26666667rem;
+  color: #12d5b5;
+  border: 0.01333333rem #12d5b5 solid;
+}
+.me img {
+  margin: 0 auto;
+  margin-top: 0.8rem;
+  margin-bottom: 0.33333333rem;
+}
+.me .btns {
+  width: 4rem;
+  margin: 0 auto;
+  margin-top: 0.53333333rem;
+}
+.me .btns button {
+  width: 1.73333333rem;
+  height: 1.26666667rem;
+  background-color: #12d5b5;
+  color: #fff;
+  font-size: 0.21333333rem;
+}
+.me .btns button:nth-child(1) {
+  margin-left: 0.13333333rem;
+}
+.me .btns button:nth-child(2) {
+  margin-right: 0.13333333rem;
+}
+.me .btns button.logout {
+  width: 100%;
+  margin-top: 0.26666667rem;
+  height: 0.53333333rem;
+  background-color: red;
 }

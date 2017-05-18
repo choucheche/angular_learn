@@ -102,7 +102,7 @@ angular.module('app').config([
           url:'/register',
           //需要传 id 得知哪个公司
           templateUrl: 'view/register.html',
-          controller: 'registerhCtrl'
+          controller: 'registerCtrl'
         }).state('me',{
         //公司详情页面
           url:'/me',
@@ -167,16 +167,26 @@ angular.module('app').controller('companyCtrl',['$http','$state','$scope',functi
   });
 }]);
 
+
 'use strict';
 angular.module('app').controller('favoriteCtrl',['$http','$scope',function($http,$scope){
-
+  // $scope.tabList=[{
+  //   id:'all',
+  //   name:'全部'
+  // },{
+  //   id:'pass',
+  //   name:'面试邀请'
+  // },{
+  //   id:'fail',
+  //   name:'不合适'
+  // }];
 }]);
-
 
 'use strict';
 angular.module('app').controller('loginCtrl',['$http','$scope',function($http,$scope){
 
 }]);
+
 
 'use strict';
 angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
@@ -210,6 +220,7 @@ angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$sc
   //   }
   // ];
 }]);
+
 
 'use strict';
 angular.module('app').controller('meCtrl',['$http','$scope',function($http,$scope){
@@ -287,8 +298,18 @@ getPosition().then()表示，
 
 'use strict';
 angular.module('app').controller('postCtrl',['$http','$scope',function($http,$scope){
-
+  $scope.tabList=[{
+    id:'all',
+    name:'全部'
+  },{
+    id:'pass',
+    name:'面试邀请'
+  },{
+    id:'fail',
+    name:'不合适'
+  }];
 }]);
+
 
 'use strict';
 angular.module('app').controller('registerCtrl',['$http','$scope',function($http,$scope){
@@ -587,301 +608,5 @@ angular.module('app').filter('filterByObj',[function(){
       }
     });
     return result;
-  };
-}]);
-
-'use strict';
-angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
-/*
-  这里的companyCtrl 在 router.js 的
-  company函数中 view/company.html 页面上为控制器
-*/
-  $http.get('./data/company.json?id='+$state.params.id).success(function(resp){
-    $scope.company = resp;
-    $scope.$broadcast('abc',{id:1});
-    //当事件加载完成，才能显示
-  });
-  $scope.$on('cba',function(event,data){
-    //当事件加载完成，才能显示
-    console.log(event,data);
-  });
-}]);
-
-
-'use strict';
-angular.module('app').controller('loginCtr',['$http','$scope',function($http,$scope){
-//这里的mainCtrl 在 router.js 的 main 函数中 view/main.html 页面上为控制器
-//$http可以调用 data文件夹下的json文件
-  $http.get('./data/positionList.json').success(function(resp){
-  //获取的 json 数据，存在 resp 里
-    console.log(resp);
-    $scope.list=resp;
-  }).error();
-  //获取 json 数据
-  // $scope.list=[
-  // //列表数据
-  //   {
-  //     id:'1232',
-  //     name:'销售',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'千度',
-  //     city:'上海',
-  //     industry:'互联网',
-  //     time:'2016-06-01 11:05'
-  //   },
-  //   {
-  //     id:'2',
-  //     name:'web前端',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'慕课网',
-  //     city:'北京',
-  //     industry:'互联网',
-  //     time:'2016-06-01 01:05'
-  //   }
-  // ];
-}]);
-
-'use strict';
-angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
-//这里的mainCtrl 在 router.js 的 main 函数中 view/main.html 页面上为控制器
-//$http可以调用 data文件夹下的json文件
-  $http.get('./data/positionList.json').success(function(resp){
-  //获取的 json 数据，存在 resp 里
-    console.log(resp);
-    $scope.list=resp;
-  }).error();
-  //获取 json 数据
-  // $scope.list=[
-  // //列表数据
-  //   {
-  //     id:'1232',
-  //     name:'销售',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'千度',
-  //     city:'上海',
-  //     industry:'互联网',
-  //     time:'2016-06-01 11:05'
-  //   },
-  //   {
-  //     id:'2',
-  //     name:'web前端',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'慕课网',
-  //     city:'北京',
-  //     industry:'互联网',
-  //     time:'2016-06-01 01:05'
-  //   }
-  // ];
-}]);
-
-
-'use strict';
-angular.module('app').controller('loginCtr',['$http','$scope',function($http,$scope){
-//这里的mainCtrl 在 router.js 的 main 函数中 view/main.html 页面上为控制器
-//$http可以调用 data文件夹下的json文件
-  $http.get('./data/positionList.json').success(function(resp){
-  //获取的 json 数据，存在 resp 里
-    console.log(resp);
-    $scope.list=resp;
-  }).error();
-  //获取 json 数据
-  // $scope.list=[
-  // //列表数据
-  //   {
-  //     id:'1232',
-  //     name:'销售',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'千度',
-  //     city:'上海',
-  //     industry:'互联网',
-  //     time:'2016-06-01 11:05'
-  //   },
-  //   {
-  //     id:'2',
-  //     name:'web前端',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'慕课网',
-  //     city:'北京',
-  //     industry:'互联网',
-  //     time:'2016-06-01 01:05'
-  //   }
-  // ];
-}]);
-
-
-'use strict';
-angular.module('app').controller('positionCtrl',['$q','$http','$state','$scope',function($q,$http,$state,$scope){
-//这里的positionCtrl 在 router.js 的 position 函数中 view/position.html 页面上为控制器
-//$q 为了实现延迟加载对象，避免子页面，需要父页面的 json 数据
-$scope.isLogin = false;
-function getPosition(){
-  var def = $q.defer();
-  //设置延迟加载对象
-  $http.get('./data/position.json?id='+$state.params.id).success(function(resp){
-  //获取的 json 数据，存在 resp 里
-    console.log(resp);
-    $scope.position=resp;
-    //这里的 $scope.position 会在 position.html 里 进行 pos='position' 转化
-    //转化后的值显示在 positionInfo 中
-    def.resolve(resp);
-    //把值传回去
-  }).error(function(err){
-    def.reject(err);
-  });
-  return def.promise;
-}
-function getCompany(id){
-  $http.get('./data/company.json?id='+id).success(function(resp){
-    //获得父级页面 json 的 id 值，获得接口
-    console.log(resp);
-    $scope.company = resp;
-  });
-}
-getPosition().then(function(obj){
-/*
-getPosition().then()表示，
-上面的 getPosition() 函数执行后，执行这个函数
-他有俩个函数，一个是 getPosition()执行 success 时执行的，
-一个是 getPosition()执行 error 时执行的，
-*/
-  getCompany(obj.companyId);
-  console.log(obj);
-},function(){
-  alert('进入error，接口错误');
-});
-/*
-  传入俩个函数，第一个是 def.resolve(resp);
-  第二个是 def.reject(err);
-*/
-  // $scope.list=[
-  // //列表数据
-  //   {
-  //     id:'1232',
-  //     name:'销售',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'千度',
-  //     city:'上海',
-  //     industry:'互联网',
-  //     time:'2016-06-01 11:05'
-  //   },
-  //   {
-  //     id:'2',
-  //     name:'web前端',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'慕课网',
-  //     city:'北京',
-  //     industry:'互联网',
-  //     time:'2016-06-01 01:05'
-  //   }
-  // ];
-}]);
-
-
-'use strict';
-angular.module('app').controller('postCtrl',['$http','$scope',function($http,$scope){
-//这里的mainCtrl 在 router.js 的 main 函数中 view/main.html 页面上为控制器
-//$http可以调用 data文件夹下的json文件
-  $http.get('./data/positionList.json').success(function(resp){
-  //获取的 json 数据，存在 resp 里
-    console.log(resp);
-    $scope.list=resp;
-  }).error();
-  //获取 json 数据
-  // $scope.list=[
-  // //列表数据
-  //   {
-  //     id:'1232',
-  //     name:'销售',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'千度',
-  //     city:'上海',
-  //     industry:'互联网',
-  //     time:'2016-06-01 11:05'
-  //   },
-  //   {
-  //     id:'2',
-  //     name:'web前端',
-  //     imgSrc:'img/me.jpg',
-  //     compayName:'慕课网',
-  //     city:'北京',
-  //     industry:'互联网',
-  //     time:'2016-06-01 01:05'
-  //   }
-  // ];
-}]);
-
-
-'use strict';
-angular.module('app').controller('searchCtrl',['dict','$http','$scope',function(dict,$http,$scope){
-//这里的searchCtrl 在 router.js 的 main 函数中 view/search.html 页面上为控制器
-//这里的 dict，在 script/config/dict.js 里
-//$http可以调用 data文件夹下的json文件
-  // $http.get('./data/positionList.json').success(function(resp){
-  //   $scope.positionList=resp;
-  // });
-  $scope.name='';
-  //默认搜索内容为空
-  $scope.search=function(){
-    $http.get('./data/positionList.json?name='+$scope.name).success(function(resp){
-    //传入参数 name='+$scope.name
-      $scope.positionList=resp;
-    });
-  };
-  $scope.search();
-  $scope.sheet={};
-  $scope.tabList=[{
-    id:'city',
-    name:'城市'
-  },{
-    id:'salary',
-    name:'薪水'
-  },{
-    id:'scale',
-    name:'公司规模'
-  }];
-  var tabId = '';
-  $scope.filterObj={};
-  $scope.tClick=function(id,name){
-    tabId = id;
-    $scope.sheet.list = dict[id];
-    $scope.sheet.visible = true;
-    //console.log(id,name);
-  };
-  $scope.sClick=function(id,name){
-    //console.log(id,name);
-    if(id){
-      angular.forEach($scope.tabList,function(item){
-      //遍历 $scope.tabList，当选择 tab里的列表后，tab相应点击位置文字改为选择的文字
-      //比如点城市，列表选择北京，那么 tab上的城市，改为北京
-        if(item.id===tabId){
-          item.name = name;
-        }
-      });
-      /**/
-      $scope.filterObj[tabId+'Id'] = id;
-      //tabId+'Id'是 json里的属性名
-      /**/
-    }else{
-      //如果没有id，那么就是默认值
-      delete $scope.filterObj[tabId + 'Id'];
-      //
-      angular.forEach($scope.tabList,function(item){
-        if(item.id===tabId){
-          switch (item.id) {
-            case 'city':
-              item.name = '城市';
-              break;
-            case 'salary':
-              item.name = '薪资';
-              break;
-            case 'scale':
-              item.name = '公司规模';
-              break;
-            default:
-
-          }
-        }
-      });
-    }
   };
 }]);

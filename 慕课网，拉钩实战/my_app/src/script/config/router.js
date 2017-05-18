@@ -50,7 +50,7 @@ angular.module('app').config([
           url:'/register',
           //需要传 id 得知哪个公司
           templateUrl: 'view/register.html',
-          controller: 'registerhCtrl'
+          controller: 'registerCtrl'
         }).state('me',{
         //公司详情页面
           url:'/me',
