@@ -1,0 +1,10 @@
+<ul class='tab'>
+  <li ng-click='click(item);' ng-repeat='item in list' class="d-ib ta-c {{selectId===item.id?'active':''}}" ng-bind='item.name'>城市</li>
+  <!--
+  上面的代码相当于下面的升级版
+  class="d-ib ta-c {{selectId===item.id?:'active':''}}" 判断是否要添加 .active
+  <li class='d-ib ta-c active'>薪资</li>
+  <li class='d-ib ta-c'>薪资</li>
+  <li class='d-ib ta-c'>公司规模</li>
+  -->
+</ul>

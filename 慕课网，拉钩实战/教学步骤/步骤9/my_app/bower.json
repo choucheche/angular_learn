@@ -1,0 +1,23 @@
+{
+  "name": "my_app",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "choucheche <snow100401176@126.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "1.2.32",
+    "angular-ui-router": "ui-router#^0.4.2",
+    "angular-validation": "^1.4.3"
+  },
+  "devDependencies": {}
+}

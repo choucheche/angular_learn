@@ -1,0 +1,45 @@
+.search-bar{
+  background-color:@headBgColor;
+  position:fixed;
+  left:0;
+  top:0;
+  .h(40);
+  width:100%;
+  .l-h(40);
+  button{
+    background:@headBgColor;
+    .f-s(14);
+    .m(0,15,0,15);
+    &:first-of-type{
+      color:@defaultColor;
+    }
+    &:last-of-type{
+      color:@muteColor;
+    }
+    &.searchIcon{
+      background:url('../img/search.png') no-repeat;
+      .bg-s(16,16);
+      .bg-y-c(6);
+      background-color:@defaultColor;
+      .p(0,10,0,26);
+      .b-r(10);
+      .h(24);
+    }
+  }
+  img{
+    transform:scale(0.5);
+    vertical-align: middle;
+  }
+  input{
+    .b-r(12);
+    border:none;
+    .f-s(14);
+    .h(24);
+    .w(190);
+    .p(0,12,0,12);
+    background:@defaultColor;
+  }
+}
+.search-list{
+  .mt(80);
+}

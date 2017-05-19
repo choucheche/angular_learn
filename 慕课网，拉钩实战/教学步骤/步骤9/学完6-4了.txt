@@ -1,0 +1,2 @@
+表单校验插件
+bower install --save angular-validation
