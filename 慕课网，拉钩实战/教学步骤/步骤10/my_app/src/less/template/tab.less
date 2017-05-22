@@ -1,0 +1,21 @@
+.tab{
+  background:@tabBgColor;
+  position:fixed;
+  left:0;
+  margin:0;
+  padding:0;
+  top:0;
+  .mt(40);
+  width:100%;
+  font-size:0;
+  li{
+    .f-s(14);
+    width:33.3%;
+    .h(40);
+    .l-h(40);
+    .border-bottom(2,@tabBgColor);
+    &.active{
+      .border-bottom(2,@headBgColor);
+    }
+  }
+}

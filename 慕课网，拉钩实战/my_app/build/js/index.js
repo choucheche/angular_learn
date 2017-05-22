@@ -28,7 +28,7 @@ $(function(){
 });
 
 'use strict';
-angular.module('app',['ui.router']);
+angular.module('app',['ui.router','validation']);
 //引入路由模块 ui.router
 
 //注意：所有script里的js代码会 用 gulp 的 concat 合并到 js/index.js 中
@@ -149,6 +149,33 @@ $state.params 或 $stateParams 里面有所有对应的参数
 $state.params.id
 $stateParams.id
 */
+
+'use strict';
+angular.module('app').config(['$validationProvider',function($validationProvider){
+//$validationProvider是，index.html引来的js插件。对模块和服务进行配置
+  var expression = {
+  //判断条件
+    phone:/^1[\d]{10}/,
+    //手机号是 11位，首位必须是 1
+    password:function(value){
+      return value.length > 5 ;
+      //密码必须大于5位
+    }
+  };
+  var defaultMsg = {
+  //表单校验提示文字
+    phone:{
+      success:'',
+      error:'必须是11位手机号'
+    },
+    password:{
+      success:'',
+      error:'长度至少6位'
+    },
+  };
+  $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
+  //设置提示语
+}]);
 
 'use strict';
 angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
@@ -312,8 +339,36 @@ angular.module('app').controller('postCtrl',['$http','$scope',function($http,$sc
 
 
 'use strict';
-angular.module('app').controller('registerCtrl',['$http','$scope',function($http,$scope){
+angular.module('app').controller('registerCtrl',['$interval','$http','$scope',function($interval,$http,$scope){
+  $scope.submit = function(){
+  //点击注册按钮，手机号密码输入错误时，无法点击触发这个submit函数
+    console.log($scope.user);
+  };
 
+  var count = 60;
+  //验证码60秒
+  $scope.send=function(){
+  //发送验证码
+      $http.get('data/code.json').success(function(resp){
+      //拿到验证码
+          if(resp.state===1){
+          //如果验证码发送成功
+            count=60;
+            $scope.time='60s';
+            var interval = $interval(function(){
+            //验证码倒计时
+            if(count<=0){
+              $interval.cancel(interval);
+              //清除倒计时
+              $scope.time='';
+            }else{
+              count--;
+              $scope.time=count +'s';
+            }
+          },1000);
+          }
+      });
+  };
 }]);
 
 

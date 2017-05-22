@@ -10,7 +10,7 @@
     right: 0;
     // 当上下左右都写的情况下，高度会变成 100%
     form {
-        .mt(200);
+        .mt(100);
         input{
           /*修改 input 的 placeholder 颜色*/
           &::-webkit-input-placeholder {
@@ -28,6 +28,20 @@
           &:-ms-input-placeholder {
               color: @defaultColor;
           }
+          &.ng-invalid{
+            &+span{
+              position:absolute;
+              color:@dangerColor;
+              right:0;
+              .h(40);
+              .l-h(20);
+              .p(10,0,10,0);
+              text-align:right;
+              color:@dangerColor;
+              .f-s(12);
+            }
+          }
+
         }
         .form-line {
             margin: 0 auto;
@@ -36,7 +50,7 @@
             &:first-of-type {
                 .border-bottom(1,@defaultColor);
             }
-            span{
+            span.icon{
               .h(40);
               .w(55);
               background-color:@iconBgColor;
@@ -61,6 +75,8 @@
                 background-color: @formBgColor;
                 color: @defaultColor;
                 outline-width: 0;
+                .f-s(16);
+
             }
         }
         .message-wrap{
@@ -76,6 +92,7 @@
             background-color: @formBgColor;
             color: @defaultColor;
             outline-width: 0;
+            .f-s(16);
           }
           span{
             .h(40);
@@ -84,6 +101,10 @@
             background-color: @btnBgColor;
             color: @headBgColor;
             .border(1,@headBgColor);
+            &.disabled{
+              color:@lineColor;
+              .border(1,@lineColor);
+            }
           }
         }
         button {

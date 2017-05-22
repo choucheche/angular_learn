@@ -174,13 +174,19 @@ gulp.task('clean',function() {
     app.distPath+'/img/',
     app.buildPath+'/less/',
     app.buildPath+'/sass/',
-    app.buildPath+'/concat_js/'
+    app.buildPath+'/concat_js/',
+    app.buildPath+'/bower_components/',
+    app.distPath+'/bower_components/',
+    app.buildPath+'/public/',
+    app.distPath+'/public/',
+    app.buildPath+'/data/',
+    app.distPath+'/data/',
   ]);
   //删除dist里面所有的文件
 });
 
-gulp.task("browser-sync",["html",'bower_copy','script','style','imageMin','concatJs','jade'],function(){
-//将任务放入自动刷新页面插件里
+gulp.task("browser-sync",["html",'bower_copy','script','style','imageMin','concatJs','jade','data','public'],function(){
+//将任务放入自动刷新页面插件里,
   browserSync({
     port: 3000,
     //默认端口3000
@@ -194,8 +200,8 @@ gulp.task("browser-sync",["html",'bower_copy','script','style','imageMin','conca
 /*将src内的bower重要文件，放入build，dist的bower_components内*/
 gulp.task('bower_copy', function() {
     gulp.src([app.srcPath+'/bower_components/**/*'])
-        .pipe(gulp.dest(app.buildPath+'/bower_components'))
-        .pipe(gulp.dest(app.distPath+'/bower_components'))
+        .pipe(gulp.dest(app.buildPath+'/bower_components/'))
+        .pipe(gulp.dest(app.distPath+'/bower_components/'))
         .pipe(browserSync.reload({stream:true}));
 });
 /*将src内的bower重要文件，放入build，dist的bower_components内结束*/
@@ -215,7 +221,7 @@ gulp.task('html', function() {
         minifyCSS: true //压缩页面CSS
     };
     /*压缩 html文件的参数结束*/
-    gulp.src([app.srcPath+'/**/*.html',app.no_srcPath+'/**/*0.html'])
+    gulp.src([app.srcPath+'/**/*.html',app.no_srcPath+'/**/*0.html',app.no_srcPath+'/bower_components/**/*',app.no_srcPath+'/public/**/*'])
         .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
         //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
         .pipe(fileinclude({
@@ -267,7 +273,7 @@ gulp.task('script',function(){
 
 /*css*/
 gulp.task('style',function(){
-  gulp.src([app.srcPath+'/css/**/*.css',app.no_srcPath+'/css/**/*.min.css',app.no_srcPath+'/css/**/*0.css'])
+  gulp.src([app.srcPath+'/css/**/*.css',app.no_srcPath+'/css/**/*.min.css',app.no_srcPath+'/css/**/*0.css',app.no_srcPath+'/bower_components/**/*',app.no_srcPath+'/public/**/*'])
     .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
     .pipe(autoprefixer({
@@ -296,7 +302,7 @@ gulp.task('style',function(){
 /*img图片压缩*/
 gulp.task('imageMin', function () {
 //优化图片
-  gulp.src([app.srcPath+'/img/**/*.{png,jpg,gif,ico}'])
+  gulp.src([app.srcPath+'/img/**/*.{png,jpg,gif,ico}',app.no_srcPath+'/bower_components/**/*',app.no_srcPath+'/public/**/*'])
     .pipe(gulp.dest(app.buildPath+'/img'))
     .pipe(cache(imagemin({
     // cache( 减少压缩图片的内存消耗
@@ -360,7 +366,7 @@ gulp.task('concatJs',function(){
 
 //jade
 gulp.task('jade', function(){
-  gulp.src(app.srcPath+'/**/*.jade')
+  gulp.src([app.srcPath+'/**/*.jade',app.no_srcPath+'/bower_components/**/*',app.no_srcPath+'/public/**/*'])
     .pipe(plumber({errorHandler: notify.onError('Error: <%= error.message %>')}))
     //当编译时出现语法错误或者其他异常,出现异常并不终止watch事件（gulp-plumber），并提示我们出现了错误（gulp-notify）。
     .pipe(gulpJade({
@@ -370,6 +376,24 @@ gulp.task('jade', function(){
     .pipe(browserSync.reload({stream:true}));
 });
 //jade结束
+
+/*public数据*/
+gulp.task('data', function() {
+  gulp.src([app.srcPath+'/data/**/*'])
+      .pipe(gulp.dest(app.buildPath+'/data'))
+      .pipe(gulp.dest(app.distPath+'/data'))
+      .pipe(browserSync.reload({stream:true}));
+});
+/*public数据 结束*/
+
+/*data数据*/
+gulp.task('public', function() {
+  gulp.src([app.srcPath+'/public/**/*'])
+      .pipe(gulp.dest(app.buildPath+'/public'))
+      .pipe(gulp.dest(app.distPath+'/public'))
+      .pipe(browserSync.reload({stream:true}));
+});
+/*data数据 结束*/
 
 gulp.task('serve', function() {
     gulp.watch(app.srcPath+'/bower_components/**/*', ['bower_copy']);
@@ -381,6 +405,8 @@ gulp.task('serve', function() {
     gulp.watch(app.srcPath+'/img/**/*', ['imageMin']);
     gulp.watch(app.srcPath+'/script/**/*.js', ['concatJs']);
     gulp.watch(app.srcPath+'/**/*.jade', ['jade']);
+    gulp.watch(app.srcPath+'/data/**/*', ['data']);
+    gulp.watch(app.srcPath+'/public/**/*', ['public']);
 });
 
 gulp.task("default",["browser-sync","serve"]);
