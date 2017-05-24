@@ -1,4 +1,12 @@
 'use strict';
-angular.module('app').controller('loginCtrl',['$http','$scope',function($http,$scope){
-
+angular.module('app').controller('loginCtrl',['cache','$state','$http','$scope',function(cache,$state,$http,$scope){
+  $scope.submit = function(){
+    $http.post('data/login.json',$scope.user).then(function(resp){
+      cache.put('id',resp.id);
+      cache.put('name',resp.name);
+      cache.put('image',resp.image);
+      $state.go('main');
+      //跳转首页
+    });
+  };
 }]);

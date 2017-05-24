@@ -28,7 +28,7 @@ $(function(){
 });
 
 'use strict';
-angular.module('app',['ui.router']);
+angular.module('app',['ui.router','validation']);
 //引入路由模块 ui.router
 
 //注意：所有script里的js代码会 用 gulp 的 concat 合并到 js/index.js 中

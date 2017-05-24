@@ -1,0 +1,2 @@
+°²×°cookies
+bower install --save angular-cookies

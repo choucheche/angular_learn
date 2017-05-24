@@ -1,0 +1,8 @@
+使用animate.css
+放到 index.html 上，每个页面切换都会用到 fadeIn
+<div ui-view class='animated fadeIn'></div>
+
+或者
+
+安装 angular 带的动画插件
+bower install --save angular-animate

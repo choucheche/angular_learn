@@ -1,12 +1,18 @@
 <div class="me ta-c">
-  <img class='d-b' src="img/head.png" alt="">
-  <span class='name'>慕课网</span>
-  <div class="btns d-b">
-    <button class='f-l' ui-sref='post'>投递</button>
-    <button class='f-r' ui-sref='favorite'>收藏</button>
-    <button class='logout'>退出登录</button>
+  <div ng-if='name'>
+  <!-- 当cookie里存了name就代表登陆了-->
+    <img class='d-b' ng-src="{{image}}" alt="">
+    <span class='name' ng-bind='name'>慕课网</span>
+    <div class="btns d-b">
+      <button class='f-l' ui-sref='post'>投递</button>
+      <button class='f-r' ui-sref='favorite'>收藏</button>
+      <button class='logout' ng-click='logout()'>退出登录</button>
+    </div>
   </div>
-
+  <div ng-hide='name'>
+  <!-- 当 cookie 里没有 name 就代表没登陆，显示这个 div-->
+    <button class='login-btn' ui-sref='login'>去登陆</button>
+  </div>
 </div>
 <div app-foot></div>
 <!-- 设置 app-foot 属性，写入指令名 -->

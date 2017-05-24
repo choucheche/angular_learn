@@ -28,6 +28,20 @@
           &:-ms-input-placeholder {
               color: @defaultColor;
           }
+          &.ng-invalid{
+            &+span{
+              position:absolute;
+              color:@dangerColor;
+              .r(5);
+              .h(40);
+              .l-h(20);
+              .p(10,0,10,0);
+              text-align:right;
+              color:@dangerColor;
+              .f-s(12);
+            }
+          }
+
         }
         .form-line {
             margin: 0 auto;
@@ -36,7 +50,7 @@
             &:first-of-type {
                 .border-bottom(1,@defaultColor);
             }
-            span{
+            span.icon{
               .h(40);
               .w(55);
               background-color:@iconBgColor;
@@ -80,13 +94,28 @@
             .f-s(16);
           }
           span{
+            .l(135);
+            right:auto !important;
+            .t(0);
+            color:#000;
+            text-align: right;
+            p{
+              .f-s(12);
+            }
+          }
+          span.message{
             .h(40);
             .l-h(40);
             .p(0,10,0,10);
             background-color: @btnBgColor;
             color: @headBgColor;
             .border(1,@headBgColor);
+            &.disabled{
+              color:@lineColor;
+              .border(1,@lineColor);
+            }
           }
+
         }
         button {
             .w(300);

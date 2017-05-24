@@ -28,7 +28,7 @@ $(function(){
 });
 
 'use strict';
-angular.module('app',['ui.router','validation']);
+angular.module('app',['ui.router','ngCookies','validation','ngAnimate']);
 //引入路由模块 ui.router
 
 //注意：所有script里的js代码会 用 gulp 的 concat 合并到 js/index.js 中
@@ -36,18 +36,52 @@ angular.module('app',['ui.router','validation']);
 //
 'use strict';
 angular.module('app').value('dict',{}).run(['dict','$http',function(dict,$http){
-  $http.get('data/city.json').success(function(resp){
+  $http.get('data/city.json').then(function(resp){
   //获取城市列表
-    dict.city = resp;
+    dict.city = resp.data;
   });
-  $http.get('data/salary.json').success(function(resp){
+  $http.get('data/salary.json').then(function(resp){
   //获取薪资列表
-    dict.salary = resp;
+    dict.salary = resp.data;
   });
-  $http.get('data/scale.json').success(function(resp){
+  $http.get('data/scale.json').then(function(resp){
   //获取公司规模列表
-    dict.scale = resp;
+    dict.scale = resp.data;
   });
+}]);
+
+'use strict';
+angular.module('app').config(['$provide',function($provide){
+  $provide.decorator('$http',['$delegate','$q',function($delegate,$q){
+  //$delegate在这个函数里等于 $http，目的是把 POST 请求改为 get 请求
+
+      $delegate.post = function(url,data,config){
+      //config等于配置对象，将post请求改为 get 请求
+        var def = $q.defer();
+        //因为是get请求，创建延迟加载对象
+        $delegate.get(url).then(function(resp){
+          def.resolve(resp.data);
+          //传回值 resp
+        });
+        // .error(function(err){
+        // //如果出现异常
+        //   def.resolve(err);
+        //   //传回值 err
+        // });
+        return{
+          then:function(cb){
+            def.promise.then(cb);
+            //当上面的 resolve 完成后执行这里
+          },
+          error:function(cb){
+            def.promise.then(null,cb);
+            //当上面的 resolve 完成后执行这里
+          }
+        };
+      };
+      return $delegate;
+  }]);
+  //装饰 $http
 }]);
 
 'use strict';
@@ -155,11 +189,16 @@ angular.module('app').config(['$validationProvider',function($validationProvider
 //$validationProvider是，index.html引来的js插件。对模块和服务进行配置
   var expression = {
   //判断条件
-    phone:/^1[\d]{10}/,
+    phone:/^1[\d]{10}$/,
     //手机号是 11位，首位必须是 1
     password:function(value){
       return value.length > 5 ;
       //密码必须大于5位
+    },
+    required:function(value){
+    //校验，手机验证码的规则
+        return !!value;
+        //不能为空
     }
   };
   var defaultMsg = {
@@ -172,6 +211,10 @@ angular.module('app').config(['$validationProvider',function($validationProvider
       success:'',
       error:'长度至少6位'
     },
+    required:{
+      success:'',
+      error:'不能为空'
+    }
   };
   $validationProvider.setExpression(expression).setDefaultMsg(defaultMsg);
   //设置提示语
@@ -183,8 +226,8 @@ angular.module('app').controller('companyCtrl',['$http','$state','$scope',functi
   这里的companyCtrl 在 router.js 的
   company函数中 view/company.html 页面上为控制器
 */
-  $http.get('./data/company.json?id='+$state.params.id).success(function(resp){
-    $scope.company = resp;
+  $http.get('./data/company.json?id='+$state.params.id).then(function(resp){
+    $scope.company = resp.data;
     $scope.$broadcast('abc',{id:1});
     //当事件加载完成，才能显示
   });
@@ -197,21 +240,24 @@ angular.module('app').controller('companyCtrl',['$http','$state','$scope',functi
 
 'use strict';
 angular.module('app').controller('favoriteCtrl',['$http','$scope',function($http,$scope){
-  // $scope.tabList=[{
-  //   id:'all',
-  //   name:'全部'
-  // },{
-  //   id:'pass',
-  //   name:'面试邀请'
-  // },{
-  //   id:'fail',
-  //   name:'不合适'
-  // }];
+
+  $http.get('data/myFavorite.json').then(function(resp){
+    $scope.list = resp.data;
+  });
+
 }]);
 
 'use strict';
-angular.module('app').controller('loginCtrl',['$http','$scope',function($http,$scope){
-
+angular.module('app').controller('loginCtrl',['cache','$state','$http','$scope',function(cache,$state,$http,$scope){
+  $scope.submit = function(){
+    $http.post('data/login.json',$scope.user).then(function(resp){
+      cache.put('id',resp.id);
+      cache.put('name',resp.name);
+      cache.put('image',resp.image);
+      $state.go('main');
+      //跳转首页
+    });
+  };
 }]);
 
 
@@ -219,11 +265,11 @@ angular.module('app').controller('loginCtrl',['$http','$scope',function($http,$s
 angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
 //这里的mainCtrl 在 router.js 的 main 函数中 view/main.html 页面上为控制器
 //$http可以调用 data文件夹下的json文件
-  $http.get('./data/positionList.json').success(function(resp){
+  $http.get('./data/positionList.json').then(function(resp){
   //获取的 json 数据，存在 resp 里
     console.log(resp);
-    $scope.list=resp;
-  }).error();
+    $scope.list=resp.data;
+  });
   //获取 json 数据
   // $scope.list=[
   // //列表数据
@@ -250,44 +296,61 @@ angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$sc
 
 
 'use strict';
-angular.module('app').controller('meCtrl',['$http','$scope',function($http,$scope){
-
+angular.module('app').controller('meCtrl',['$state','cache','$http','$scope',function($state,cache,$http,$scope){
+  if(cache.get('name')){
+    $scope.name = cache.get('name');
+    $scope.image = cache.get('image');
+  }
+  $scope.logout = function(){
+    cache.remove('id');
+    cache.remove('name');
+    cache.remove('image');
+    $state.go('main');
+  };
 }]);
 
 
 'use strict';
-angular.module('app').controller('positionCtrl',['$q','$http','$state','$scope',function($q,$http,$state,$scope){
+angular.module('app').controller('positionCtrl',['$log','cache','$q','$http','$state','$scope',function($log,cache,$q,$http,$state,$scope){
 //这里的positionCtrl 在 router.js 的 position 函数中 view/position.html 页面上为控制器
 //$q 为了实现延迟加载对象，避免子页面，需要父页面的 json 数据
-$scope.isLogin = false;
+//$log为 angular 自带的 console.log
+$scope.isLogin = !!cache.get('name');
+//判断是否有 cookies 的 name 值，!!俩个叹号将值强行转成布尔值
+$scope.message = $scope.isLogin?'投个简历':'去登陆';
+//判断用户是否登录，来显示按钮的文字
 function getPosition(){
   var def = $q.defer();
   //设置延迟加载对象
-  $http.get('./data/position.json?id='+$state.params.id).success(function(resp){
+  $http.get('./data/position.json?id='+$state.params.id).then(function(resp){
   //获取的 json 数据，存在 resp 里
-    console.log(resp);
-    $scope.position=resp;
+    console.log(resp.data);
+    $scope.position=resp.data;
     //这里的 $scope.position 会在 position.html 里 进行 pos='position' 转化
     //转化后的值显示在 positionInfo 中
-    def.resolve(resp);
+    if(resp.data.posted){
+      $scope.message = '已投递';
+    }
+    def.resolve(resp.data);
     //把值传回去
-  }).error(function(err){
-    def.reject(err);
   });
+  // .error(function(err){
+  //   def.reject(err);
+  // });
   return def.promise;
 }
 function getCompany(id){
-  $http.get('./data/company.json?id='+id).success(function(resp){
+  $http.get('./data/company.json?id='+id).then(function(resp){
     //获得父级页面 json 的 id 值，获得接口
-    console.log(resp);
-    $scope.company = resp;
+    console.log(resp.data);
+    $scope.company = resp.data;
   });
 }
 getPosition().then(function(obj){
 /*
 getPosition().then()表示，
 上面的 getPosition() 函数执行后，执行这个函数
-他有俩个函数，一个是 getPosition()执行 success 时执行的，
+他有俩个函数，一个是 getPosition()执行 then 时执行的，
 一个是 getPosition()执行 error 时执行的，
 */
   getCompany(obj.companyId);
@@ -295,6 +358,27 @@ getPosition().then()表示，
 },function(){
   alert('进入error，接口错误');
 });
+$scope.go = function(){
+//投递简历按钮
+if($scope.message!=='已投递'){
+  if($scope.isLogin){
+    $http.post('data/handle.json',{
+      id:$scope.position.id
+    }).then(function(resp){
+    //投递简历成功
+      console.log(resp);
+      $log.info(resp);
+      $scope.message='已投递';
+
+    });
+
+  }else{
+    $state.go('login');
+  }
+}
+
+};
+
 /*
   传入俩个函数，第一个是 def.resolve(resp);
   第二个是 def.reject(err);
@@ -335,21 +419,50 @@ angular.module('app').controller('postCtrl',['$http','$scope',function($http,$sc
     id:'fail',
     name:'不合适'
   }];
+  $http.get('data/myPost.json').then(function(resp){
+    $scope.positionList = resp.data;
+  });
+  $scope.filterObj = {};
+  //过滤数据
+  $scope.tClick=function(id,name){
+  //切换 投递记录 tab  
+    switch (id) {
+      case 'all':
+        delete $scope.filterObj.state;
+        //全选
+        break;
+      case 'pass':
+        $scope.filterObj.state = '1';
+        break;
+      case 'fail':
+        $scope.filterObj.state = '-1';
+        break;
+      default:
+
+    }
+  };
 }]);
 
 
 'use strict';
-angular.module('app').controller('registerCtrl',['$interval','$http','$scope',function($interval,$http,$scope){
+angular.module('app').controller('registerCtrl',['$interval','$http','$scope','$state',function($interval,$http,$scope,$state){
   $scope.submit = function(){
   //点击注册按钮，手机号密码输入错误时，无法点击触发这个submit函数
-    console.log($scope.user);
+    //console.log($scope.user);
+    //$scope.user传回输入的手机号，密码
+    $http.post('data/regist.json',$scope.user).then(function(resp){
+      console.log(resp.data);
+      //获得注册信息
+      $state.go('login');
+      //注册成功后跳转到登陆页面
+    });
   };
 
   var count = 60;
   //验证码60秒
   $scope.send=function(){
   //发送验证码
-      $http.get('data/code.json').success(function(resp){
+      $http.get('data/code.json').then(function(resp){
       //拿到验证码
           if(resp.state===1){
           //如果验证码发送成功
@@ -377,15 +490,15 @@ angular.module('app').controller('searchCtrl',['dict','$http','$scope',function(
 //这里的searchCtrl 在 router.js 的 main 函数中 view/search.html 页面上为控制器
 //这里的 dict，在 script/config/dict.js 里
 //$http可以调用 data文件夹下的json文件
-  // $http.get('./data/positionList.json').success(function(resp){
+  // $http.get('./data/positionList.json').then(function(resp){
   //   $scope.positionList=resp;
   // });
   $scope.name='';
   //默认搜索内容为空
   $scope.search=function(){
-    $http.get('./data/positionList.json?name='+$scope.name).success(function(resp){
+    $http.get('./data/positionList.json?name='+$scope.name).then(function(resp){
     //传入参数 name='+$scope.name
-      $scope.positionList=resp;
+      $scope.positionList=resp.data;
     });
   };
   $scope.search();
@@ -448,6 +561,28 @@ angular.module('app').controller('searchCtrl',['dict','$http','$scope',function(
 }]);
 
 'use strict';
+angular.module('app').filter('filterByObj',[function(){
+//search.html用的，filter过滤器，名为 filterByObj
+  return function(list,obj){
+    var result = [];
+    angular.forEach(list,function(item){
+      var isEqual = true;
+      for(var e in obj){
+        if(item[e]!==obj[e]){
+        //如果不符合
+          isEqual = false;
+        }
+      }
+      if(isEqual){
+      //如果找到符合的
+        result.push(item);
+      }
+    });
+    return result;
+  };
+}]);
+
+'use strict';
 angular.module('app').directive('appCompany',[function(){
 /*设置自定义标签，
 找到带 app-company 的属性标签，让里面写入 view/template/company.html的内容
@@ -479,7 +614,8 @@ foot.html里需要有一个根标签
 }]);
 
 'use strict';
-angular.module('app').directive('appHead',[function(){
+angular.module('app').directive('appHead',['cache',function(cache){
+//angular.module('app').directive('appHead',['cache',function(cache){
 /*设置自定义标签，
 找到带 app-head 的属性标签，让里面写入 view/template/head.html的内容
 注意：head.html里需要有一个根标签
@@ -488,7 +624,11 @@ angular.module('app').directive('appHead',[function(){
     restrict:'A',
     // A 从属性中读取，连接到 app-head
     replace: true,
-    templateUrl:'view/template/head.html'
+    templateUrl:'view/template/head.html',
+    link:function($scope){
+      $scope.name= cache.get('name')||'';
+      //获得用户登陆姓名 或 空
+    }
   };
 }]);
 
@@ -566,7 +706,7 @@ angular.module('app').directive('appPositionClass',[function(){
 }]);
 
 'use strict';
-angular.module('app').directive('appPositionInfo',[function(){
+angular.module('app').directive('appPositionInfo',['$http',function($http){
   return{
     restrict:'A',
     // A 从属性中读取，连接到 app-PositionInfo
@@ -579,13 +719,30 @@ angular.module('app').directive('appPositionInfo',[function(){
       pos:'=',
     },
     link:function($scope){
-      $scope.imagePath=$scope.isActive?'img/star-active.png':'img/star.png';
+      $scope.$watch('pos',function(newVal){
+      //等 pos 值传过来再执行函数里的内容
+        if(newVal){
+          $scope.pos.select = $scope.pos.select || false;
+          $scope.imagePath=$scope.pos.select?'img/star-active.png':'img/star.png';
+        }
+      });
+
+      $scope.favorite = function(){
+      //当用户点击收藏按钮
+        $http.post('data/favorite.json',{
+          id:$scope.pos.id,
+          select:$scope.pos.select
+        }).then(function(resp){
+          $scope.pos.select = !$scope.pos.select;
+          $scope.imagePath=$scope.pos.select?'img/star-active.png':'img/star.png';
+        });
+      };
     }
   };
 }]);
 
 'use strict';
-angular.module('app').directive('appPositionList',[function(){
+angular.module('app').directive('appPositionList',['$http',function($http){
 /*设置自定义标签，
 找到带 app-positionList 的属性标签，让里面写入 view/template/positionList.html的内容
 positionList.html里需要有一个根标签
@@ -598,7 +755,20 @@ positionList.html里需要有一个根标签
     //路由，让 <div app-position-list>变成 positionList.html页面
     scope:{
       data:'=',
-      filterObj:'='
+      filterObj:'=',
+      isFavorite:'='
+    },link:function($scope){
+      $scope.select = function(item){
+      //切换收藏状态
+        $http.post('data/myFavorite.json',{
+          id:item.id,
+          select:!item.select
+        }).then(function(resp){
+          item.select = !item.select;
+        });
+
+        //取反
+      };
     }
     /*
     这里的 scope 里的 data:'=' 是让
@@ -645,23 +815,28 @@ angular.module('app').directive('appTab',[function(){
 }]);
 
 'use strict';
-angular.module('app').filter('filterByObj',[function(){
-//search.html用的，filter过滤器，名为 filterByObj
-  return function(list,obj){
-    var result = [];
-    angular.forEach(list,function(item){
-      var isEqual = true;
-      for(var e in obj){
-        if(item[e]!==obj[e]){
-        //如果不符合
-          isEqual = false;
-        }
-      }
-      if(isEqual){
-      //如果找到符合的
-        result.push(item);
-      }
-    });
-    return result;
+angular.module('app').service('cache',['$cookies',function($cookies){
+  this.put = function(key,value){
+    $cookies.put(key,value);
+  };
+  this.get = function(key){
+    return $cookies.get(key);
+  };
+  this.remove = function(key){
+    $cookies.remove(key);
   };
 }]);
+
+// angular.module('app').factory('cache',['$cookies',function($cookies){
+//   return{
+//     put : function(key,value){
+//       return $cookies.put(key,value);
+//     },
+//     get : function(key){
+//       return $cookies.get(key);
+//     },
+//     remove:function(key){
+//       return $cookies.remove(key);
+//     }
+//   };
+// }]);

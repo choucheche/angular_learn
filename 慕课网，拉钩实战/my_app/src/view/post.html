@@ -1,4 +1,6 @@
 <div app-head-bar="" text="'投递记录'"></div>
 <!-- 设置 app-head 属性，写入指令名 -->
-<div app-tab list='tabList'></div>
-<div app-position-list></div>
+<div app-tab tab-click='tClick(id,name)' list='tabList'></div>
+<!-- 切换投递记录 -->
+<div class='my-post' filter-obj='filterObj' app-position-list data='positionList'></div>
+<!-- 投递的公司目录 -->

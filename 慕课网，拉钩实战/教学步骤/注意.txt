@@ -1,0 +1,5 @@
+我的angular版本，不支持success和error
+需要将success换成then，并删除error
+
+then出来的参数 里面大部分写的都是 resp
+需要用 resp.data 才能显示值

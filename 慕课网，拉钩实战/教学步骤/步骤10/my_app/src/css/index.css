@@ -485,6 +485,16 @@ button {
 .register form input:-ms-input-placeholder {
   color: #fff;
 }
+.register form input.ng-invalid + span {
+  position: absolute;
+  right: 0.06666667rem;
+  height: 0.53333333rem;
+  line-height: 0.26666667rem;
+  padding: 0.13333333rem 0rem 0.13333333rem 0rem;
+  text-align: right;
+  color: #def8f5;
+  font-size: 0.16rem;
+}
 .register form .form-line {
   margin: 0 auto;
   width: 4rem;
@@ -493,18 +503,18 @@ button {
 .register form .form-line:first-of-type {
   border-bottom: 0.01333333rem #fff solid;
 }
-.register form .form-line span {
+.register form .form-line span.icon {
   height: 0.53333333rem;
   width: 0.73333333rem;
   background-color: rgba(0, 0, 0, 0.4);
 }
-.register form .form-line span.account {
+.register form .form-line span.icon.account {
   background-image: url('../img/account.png');
   background-repeat: no-repeat;
   background-size: 0.30666667rem 0.32rem;
   background-position: center center;
 }
-.register form .form-line span.lock {
+.register form .form-line span.icon.lock {
   background-image: url('../img/lock.png');
   background-repeat: no-repeat;
   background-size: 0.30666667rem 0.32rem;
@@ -537,12 +547,26 @@ button {
   font-size: 0.21333333rem;
 }
 .register form .message-wrap span {
+  left: 1.8rem;
+  right: auto !important;
+  top: 0rem;
+  color: #000;
+  text-align: right;
+}
+.register form .message-wrap span p {
+  font-size: 0.16rem;
+}
+.register form .message-wrap span.message {
   height: 0.53333333rem;
   line-height: 0.53333333rem;
   padding: 0rem 0.13333333rem 0rem 0.13333333rem;
   background-color: rgba(18, 213, 181, 0.2);
   color: #12d5b5;
   border: 0.01333333rem #12d5b5 solid;
+}
+.register form .message-wrap span.message.disabled {
+  color: #d4d4d4;
+  border: 0.01333333rem #d4d4d4 solid;
 }
 .register form button {
   width: 4rem;

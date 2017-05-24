@@ -141,6 +141,20 @@ button {
 .position-list .item .text {
   margin: 0;
 }
+.position-list .item .icon {
+  background-repeat: no-repeat;
+  width: 0.62666667rem;
+  height: 0.58666667rem;
+  top: 0.18666667rem;
+  right: 0.16rem;
+  background-size: 0.62666667rem 0.58666667rem;
+}
+.position-list .item .icon.star {
+  background-image: url(../img/star.png?v=w44Hlb3UH%2B78ZOMP56XWkw%3D%3D);
+}
+.position-list .item .icon.star-active {
+  background-image: url(../img/star-active.png?v=H%2FadSiAbtmh%2FlRUSBijFrQ%3D%3D);
+}
 .foot {
   position: fixed;
   left: 0;
@@ -393,6 +407,16 @@ button {
 .login form {
   margin-top: 2rem;
 }
+.login form .ng-invalid + span {
+  position: absolute;
+  right: 0.06666667rem;
+  height: 0.53333333rem;
+  line-height: 0.26666667rem;
+  padding: 0.13333333rem 0rem 0.13333333rem 0rem;
+  text-align: right;
+  color: #def8f5;
+  font-size: 0.16rem;
+}
 .login form .form-line {
   margin: 0 auto;
   width: 4rem;
@@ -401,18 +425,18 @@ button {
 .login form .form-line:first-of-type {
   border-bottom: 0.01333333rem #fff solid;
 }
-.login form .form-line span {
+.login form .form-line .icon {
   height: 0.53333333rem;
   width: 0.73333333rem;
   background-color: rgba(0, 0, 0, 0.4);
 }
-.login form .form-line span.account {
+.login form .form-line .icon.account {
   background-image: url(../img/account.png?v=JW2LGHWVBRpWhMwmJeRDxw%3D%3D);
   background-repeat: no-repeat;
   background-size: 0.30666667rem 0.32rem;
   background-position: center center;
 }
-.login form .form-line span.lock {
+.login form .form-line .icon.lock {
   background-image: url(../img/lock.png?v=ZTDL7osDLQYlyCJwpu22Uw%3D%3D);
   background-repeat: no-repeat;
   background-size: 0.30666667rem 0.32rem;
@@ -489,7 +513,7 @@ button {
 }
 .register form input.ng-invalid + span {
   position: absolute;
-  right: 0;
+  right: 0.06666667rem;
   height: 0.53333333rem;
   line-height: 0.26666667rem;
   padding: 0.13333333rem 0rem 0.13333333rem 0rem;
@@ -549,6 +573,16 @@ button {
   font-size: 0.21333333rem;
 }
 .register form .message-wrap span {
+  left: 1.8rem;
+  right: auto !important;
+  top: 0rem;
+  color: #000;
+  text-align: right;
+}
+.register form .message-wrap span p {
+  font-size: 0.16rem;
+}
+.register form .message-wrap span.message {
   height: 0.53333333rem;
   line-height: 0.53333333rem;
   padding: 0rem 0.13333333rem 0rem 0.13333333rem;
@@ -556,7 +590,7 @@ button {
   color: #12d5b5;
   border: 0.01333333rem #12d5b5 solid;
 }
-.register form .message-wrap span.disabled {
+.register form .message-wrap span.message.disabled {
   color: #d4d4d4;
   border: 0.01333333rem #d4d4d4 solid;
 }
@@ -581,6 +615,8 @@ button {
   margin: 0 auto;
   margin-top: 0.8rem;
   margin-bottom: 0.33333333rem;
+  width: 1.33333333rem;
+  border-radius: 50%;
 }
 .me .btns {
   width: 4rem;
@@ -601,8 +637,99 @@ button {
   margin-right: 0.13333333rem;
 }
 .me .btns button.logout {
-  width: 100%;
-  margin-top: 0.26666667rem;
+  width: 4rem;
   height: 0.53333333rem;
   background-color: red;
+  margin: 0 auto;
+  margin-top: 0.26666667rem;
 }
+.me .login-btn {
+  color: #fff;
+  width: 4.53333333rem;
+  margin-top: 0.26666667rem;
+  height: 0.53333333rem;
+  background-color: #12d5b5;
+  margin-top: 4rem;
+  font-size: 0.29333333rem;
+}
+.my-post {
+  margin-top: 0.53333333rem;
+}
+.animated {
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+}
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+          animation-name: fadeIn;
+}
+@-webkit-keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+            transform: none;
+  }
+}
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+          animation-name: fadeInLeft;
+}
+/*
+从网上 angular 官方上复制的
+https://docs.angularjs.org/api/ngAnimate
+当安装了 angular-animate 插件，后，下面的样式自动写入 html 标签内
+*/
+.ng-enter {
+  -webkit-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+  opacity: 0;
+}
+/* The finishing CSS styles for the enter animation */
+.ng-enter-active {
+  opacity: 1;
+}
+/*
+从网上 angular 官方上复制的
+https://docs.angularjs.org/api/ngAnimate
+当安装了 angular-animate 插件，后，下面的样式自动写入 html 标签内
+结束
+*/
+/*
+页面切换动画写在 animate.less 里面，
+动画 class 写在 index.html 里拥有 ui-view 的 div 上
+*/

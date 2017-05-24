@@ -1,5 +1,5 @@
 'use strict';
-angular.module('app').directive('appPositionInfo',[function(){
+angular.module('app').directive('appPositionInfo',['$http',function($http){
   return{
     restrict:'A',
     // A 从属性中读取，连接到 app-PositionInfo
@@ -12,7 +12,24 @@ angular.module('app').directive('appPositionInfo',[function(){
       pos:'=',
     },
     link:function($scope){
-      $scope.imagePath=$scope.isActive?'img/star-active.png':'img/star.png';
+      $scope.$watch('pos',function(newVal){
+      //等 pos 值传过来再执行函数里的内容
+        if(newVal){
+          $scope.pos.select = $scope.pos.select || false;
+          $scope.imagePath=$scope.pos.select?'img/star-active.png':'img/star.png';
+        }
+      });
+
+      $scope.favorite = function(){
+      //当用户点击收藏按钮
+        $http.post('data/favorite.json',{
+          id:$scope.pos.id,
+          select:$scope.pos.select
+        }).then(function(resp){
+          $scope.pos.select = !$scope.pos.select;
+          $scope.imagePath=$scope.pos.select?'img/star-active.png':'img/star.png';
+        });
+      };
     }
   };
 }]);

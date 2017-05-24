@@ -50,15 +50,26 @@
 </head>
 
 <body>
-    <div ui-view></div>
-    <!-- 显示路由页面 -->
+    <div ui-view class=''></div>
+    <!-- <div ui-view class='animated fadeIn'></div> -->
+    <!--
+      显示路由页面
+      class='animated fadeIn' 表示页面切换时，使用的 animate.css 动画样式
+    -->
 
     <!-- <img src='img/me.jpg?rev=8f03a561c7b273b3497758b171db03cf'> -->
+    <script charset="utf-8" src='public/js/jquery-1.12.4.min.js'></script>
     <script charset="utf-8" src='bower_components/angular/angular.min.js'></script>
     <script charset="utf-8" src='bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+    <!-- 路由 -->
+    <script charset="utf-8" src='bower_components/angular-cookies/angular-cookies.min.js'></script>
+    <!-- cookie缓存 -->
     <script charset="utf-8" src='bower_components/angular-validation/dist/angular-validation.min.js'></script>
-    <script charset="utf-8" src='public/js/jquery-1.11.1.min.js'></script>
-    <script charset="utf-8" src='js/index.js?rev=cce5f5292454ffc758063359622678f6'></script>
+    <!-- 装饰器，将 post 装饰成 get -->
+    <script charset="utf-8" src='bower_components/angular-animate/angular-animate.min.js'></script>
+    <!-- 页面切换动画 -->
+    <!-- 上面每个加载的插件都在 app.js 里调用 -->
+    <script charset="utf-8" src='js/index.js?rev=0a34b79470cb5112d2390ef069a44115'></script>
     <!-- index.js是从src/script里的js在gulp的concat里合并js得来的 -->
 </body>
 
